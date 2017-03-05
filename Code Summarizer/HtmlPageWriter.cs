@@ -23,8 +23,7 @@ namespace Code_Summarizer
             {   // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader(_filePath))
                 {
-                    _htmlContent = sr.ReadToEnd();
-                    Console.WriteLine(_htmlContent);
+                    _htmlContent = sr.ReadToEnd();                    
                 }
             }
             catch (Exception e)
@@ -60,10 +59,8 @@ namespace Code_Summarizer
                 memberVariables += "<li>" + vars + "</li>";
             }
             memberVariables += "</ol>";
-            _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
-
-            
-            Console.WriteLine("--------After replace ----" + _htmlContent);
+            _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);            
+           
         }
         public void outputWebPage(string outputPath)
         {

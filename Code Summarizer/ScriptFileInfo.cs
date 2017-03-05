@@ -104,18 +104,20 @@ namespace Code_Summarizer
                         int closingBracketPos = chunk[i].IndexOf(')', firstBlankSpacePos);
                         dataType = chunk[i].Substring(0, firstBlankSpacePos);
                         functionName = chunk[i].Substring(firstBlankSpacePos, closingBracketPos);
+                        functionName = functionName.Substring(0, functionName.IndexOf(')')+1);
+                        dataType = dataType.Trim().Replace(" ",""); 
+                        
                         _memberFunctions.Add(dataType + " " + functionName);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Chunk before regex = " + chunk[i]);
-
+                    
                     if (!chunk[i].Contains("(") && enteredMainBody == false)
                     {
-                        Console.WriteLine("Chunk no brackets : " + chunk[i]);
+                       
                         chunk[i] = chunk[i].Trim();
-                        string pattern = @"\w+ \w+";
+                        string pattern = @"(public \w+ \w+)|(private \w+ \w+)|(protected \w+ \w+)|(static \w+ \w+)|(const \w+ \w+)|(readonly \w+ \w+)|(\w+ \w+)";
                         Match result = Regex.Match(chunk[i], pattern);
 
                         while (result.Success)
