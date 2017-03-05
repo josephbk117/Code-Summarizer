@@ -58,7 +58,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Main Form";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -18,30 +18,20 @@ namespace Code_Summarizer
         public MainForm()
         {
             InitializeComponent();
-            
         }
 
         private void OpenFolderPanel_Click(object sender, EventArgs e)
         {
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                csFiles = Directory.GetFiles(fbd.SelectedPath,"*cs").ToList<string>();
+                csFiles = Directory.GetFiles(fbd.SelectedPath, "*.cs").ToList<string>();
                 SFI = new ScriptFileInfo(csFiles[0]);
                 folderPathTextBox.Text = fbd.SelectedPath;
-                SFI.Analyze();
-                Console.WriteLine("Class name : " + SFI.getClassName());
-                foreach (string s in SFI.getDependencies())
-                {
-                    Console.WriteLine("Dependencies = " + s);
-                }
-                foreach (string s in SFI.getMemberFunctions())
-                {
-                    Console.WriteLine("Functions : " + s);
-                }
+                SFI.Analyze();                
 
                 HtmlPageWriter hpw = new HtmlPageWriter("template.html");
-                hpw.setContent(SFI.getClassName(), SFI.getDerievedClass(),SFI.getMemberFunctions(), SFI.getMemberVariables(),SFI.getDependencies(),SFI._pathName);
-                hpw.outputWebPage("Output.html");
+                hpw.SetContent(SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(),SFI._pathName);
+                hpw.OutputWebPage("Output.html");
             }
         }
     }

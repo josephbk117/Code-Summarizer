@@ -13,6 +13,7 @@ namespace Code_Summarizer
         List<string> _memberVariables;
         List<string> _memberFunctions;
         List<string> _dependencies;
+        List<string> _todos;
 
         bool enteredMainBody = false;
         public ScriptFileInfo(string pathName)
@@ -23,6 +24,7 @@ namespace Code_Summarizer
             _memberVariables = new List<string>();
             _memberFunctions = new List<string>();
             _dependencies = new List<string>();
+            _todos = new List<string>();
         }
 
         public void Analyze()
@@ -32,23 +34,30 @@ namespace Code_Summarizer
             {   // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader(_pathName))
                 {
-
-                    line = sr.ReadToEnd();
-                    Console.WriteLine(line);
+                    line = sr.ReadToEnd();                    
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
+                return;
             }
+            Regex rgx = new Regex(@"//TODO.*\r\n");
+
+            foreach (Match match in rgx.Matches(line))
+            {
+                Console.WriteLine("Regex value = " + match.Value + " at index " + match.Index);
+                _todos.Add(match.Value.Substring(7));
+                line = line.Replace(match.Value, "");
+            }
+            
             int firstusingStatement = line.IndexOf("using");
             int lastIndexOfBracket = line.LastIndexOf('}') - 1;
             line = line.Substring(firstusingStatement, lastIndexOfBracket);
             string[] chunk = line.Split(';');
             for (int i = 0; i < chunk.Length; i++)
-            {
-                Console.WriteLine("Line :" + i + " " + chunk[i]);
+            {                
                 if (chunk[i].Contains("using"))
                 {
                     int indexOfG = chunk[i].IndexOf('g') + 1;
@@ -97,20 +106,20 @@ namespace Code_Summarizer
                     else if (chunk[i].Contains("(") && chunk[i].Contains(")"))
                     {
                         enteredMainBody = true;
-                        
-                        chunk[i] = chunk[i].Replace("\r\n","").Replace("}","").Replace("{","").Trim();
+
+                        chunk[i] = chunk[i].Replace("\r\n", "").Replace("}", "").Replace("{", "").Trim();
                         int firstBlankSpacePos = chunk[i].IndexOf(' ');
                         int firstBracketPos = chunk[i].IndexOf('(');
                         int closingBracketPos = chunk[i].IndexOf(')', firstBlankSpacePos);
                         dataType = chunk[i].Substring(0, firstBlankSpacePos);
                         functionName = chunk[i].Substring(firstBlankSpacePos, closingBracketPos);
-                        functionName = functionName.Substring(0, functionName.IndexOf(')')+1);
-                        dataType = dataType.Trim().Replace(" ","");
+                        functionName = functionName.Substring(0, functionName.IndexOf(')') + 1);
+                        dataType = dataType.Trim().Replace(" ", "");
 
                         string combined = dataType + functionName;
-                        string tempWithoutParameter = combined.Substring(0, combined.IndexOf('('));                        
-                        int wordCount = tempWithoutParameter.Split(' ').Length-1;
-                        Console.WriteLine("Spaces for " + combined + " = " + wordCount);
+                        string tempWithoutParameter = combined.Substring(0, combined.IndexOf('('));
+                        int wordCount = tempWithoutParameter.Split(' ').Length - 1;
+                        
                         if (wordCount == 1)
                         {
                             combined = combined.Insert(0, "private ");
@@ -120,17 +129,17 @@ namespace Code_Summarizer
                     }
                 }
                 else
-                {                    
+                {
                     if (!chunk[i].Contains("(") && enteredMainBody == false)
                     {
-                       
+
                         chunk[i] = chunk[i].Trim();
                         string pattern = @"(public \w+ \w+)|(private \w+ \w+)|(protected \w+ \w+)|(static \w+ \w+)|(const \w+ \w+)|(readonly \w+ \w+)|(\w+ \w+)";
                         Match result = Regex.Match(chunk[i], pattern);
 
                         while (result.Success)
                         {
-                            Console.WriteLine("Rsults : " + result.Value);
+                            Console.WriteLine("Results : " + result.Value);
                             _memberVariables.Add(result.Value);
                             result = result.NextMatch();
                         }
@@ -138,26 +147,35 @@ namespace Code_Summarizer
                 }
             }
         }
-        public List<string> getDependencies()
+        public List<string> GetDependencies()
         {
             return _dependencies;
         }
-        public List<string> getMemberFunctions()
+        public List<string> GetMemberFunctions()
         {
             return _memberFunctions;
         }
-        public List<string> getMemberVariables()
+        public List<string> GetMemberVariables()
         {
             return _memberVariables;
         }
-        public string getClassName()
+        public List<string> GetTodos()
+        {
+            if (_todos.Count == 0)
+            {
+                _todos.Add("No Todos");   
+            }
+            return _todos;
+        }
+        public string GetClassName()
         {
             return _className;
         }
-        public string getDerievedClass()
+        public string GetDerievedClass()
         {
             return _derievedClass;
         }
         
+
     }
 }

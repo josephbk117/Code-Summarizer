@@ -13,6 +13,7 @@ namespace Code_Summarizer
         const string FUNCTIONS = "#FUNCTIONS#";
         const string DEPENDENCIES = "#DEPENDENCIES#";
         const string MEMVARS = "#MEMVARS#";
+        const string TODOS = "#TODOS#";
         private string _filePath;
         private string _htmlContent = "";
 
@@ -23,7 +24,7 @@ namespace Code_Summarizer
             {   // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader(_filePath))
                 {
-                    _htmlContent = sr.ReadToEnd();                    
+                    _htmlContent = sr.ReadToEnd();
                 }
             }
             catch (Exception e)
@@ -32,10 +33,20 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
             }
         }
-        public void setContent(string className, string dClassName,List<string> functions, List<string> memVariables,List<string> dependecyList,string fileName)
+        public void SetContent(string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos,string fileName)
         {
-            _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME,fileName);
+            _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName);
             _htmlContent = _htmlContent.Replace(DCLASSNAME, dClassName);
+
+            string classTodos = "<ul style = \"color: rgb(200, 220, 220)\">";
+            foreach (string todo in todos)
+            {
+                classTodos += "<li>" + todo + "</li>";
+            }
+            classTodos += "</ul>";
+
+            _htmlContent = _htmlContent.Replace(TODOS, classTodos);
+
             string memberFunctions = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string func in functions)
             {
@@ -47,9 +58,9 @@ namespace Code_Summarizer
             string dependencies = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string depend in dependecyList)
             {
-                dependencies += "<li>"+ depend +"</li>";
+                dependencies += "<li>" + depend + "</li>";
             }
-            
+
             dependencies += "</ol>";
             _htmlContent = _htmlContent.Replace(DEPENDENCIES, dependencies);
 
@@ -59,10 +70,10 @@ namespace Code_Summarizer
                 memberVariables += "<li>" + vars + "</li>";
             }
             memberVariables += "</ol>";
-            _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);            
-           
+            _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
+
         }
-        public void outputWebPage(string outputPath)
+        public void OutputWebPage(string outputPath)
         {
             using (StreamWriter sw = new StreamWriter(outputPath))
             {
