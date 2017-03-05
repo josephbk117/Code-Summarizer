@@ -105,14 +105,22 @@ namespace Code_Summarizer
                         dataType = chunk[i].Substring(0, firstBlankSpacePos);
                         functionName = chunk[i].Substring(firstBlankSpacePos, closingBracketPos);
                         functionName = functionName.Substring(0, functionName.IndexOf(')')+1);
-                        dataType = dataType.Trim().Replace(" ",""); 
-                        
-                        _memberFunctions.Add(dataType + " " + functionName);
+                        dataType = dataType.Trim().Replace(" ","");
+
+                        string combined = dataType + functionName;
+                        string tempWithoutParameter = combined.Substring(0, combined.IndexOf('('));                        
+                        int wordCount = tempWithoutParameter.Split(' ').Length-1;
+                        Console.WriteLine("Spaces for " + combined + " = " + wordCount);
+                        if (wordCount == 1)
+                        {
+                            combined = combined.Insert(0, "private ");
+                        }
+
+                        _memberFunctions.Add(combined);
                     }
                 }
                 else
-                {
-                    
+                {                    
                     if (!chunk[i].Contains("(") && enteredMainBody == false)
                     {
                        
