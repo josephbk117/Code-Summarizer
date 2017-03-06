@@ -32,16 +32,19 @@
             this.OpenFolderPanel = new System.Windows.Forms.Panel();
             this.titleLabel = new System.Windows.Forms.Label();
             this.closePanel = new System.Windows.Forms.Panel();
+            this.dragPanel = new System.Windows.Forms.Panel();
+            this.outputFolderPathTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // folderPathTextBox
             // 
             this.folderPathTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
             this.folderPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.folderPathTextBox.Font = new System.Drawing.Font("Roboto Condensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.folderPathTextBox.ForeColor = System.Drawing.Color.White;
-            this.folderPathTextBox.Location = new System.Drawing.Point(55, 80);
+            this.folderPathTextBox.Location = new System.Drawing.Point(55, 78);
             this.folderPathTextBox.Name = "folderPathTextBox";
-            this.folderPathTextBox.Size = new System.Drawing.Size(417, 13);
+            this.folderPathTextBox.Size = new System.Drawing.Size(417, 19);
             this.folderPathTextBox.TabIndex = 0;
             // 
             // OpenFolderPanel
@@ -76,6 +79,29 @@
             this.closePanel.TabIndex = 3;
             this.closePanel.Click += new System.EventHandler(this.ClosePanel_Click);
             // 
+            // dragPanel
+            // 
+            this.dragPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dragPanel.Location = new System.Drawing.Point(41, 0);
+            this.dragPanel.Name = "dragPanel";
+            this.dragPanel.Size = new System.Drawing.Size(554, 35);
+            this.dragPanel.TabIndex = 4;
+            this.dragPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseDown);
+            this.dragPanel.MouseEnter += new System.EventHandler(this.dragPanel_MouseEnter);
+            this.dragPanel.MouseLeave += new System.EventHandler(this.dragPanel_MouseLeave);
+            this.dragPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseMove);
+            // 
+            // outputFolderPathTextBox
+            // 
+            this.outputFolderPathTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.outputFolderPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.outputFolderPathTextBox.Font = new System.Drawing.Font("Roboto Condensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.outputFolderPathTextBox.ForeColor = System.Drawing.Color.White;
+            this.outputFolderPathTextBox.Location = new System.Drawing.Point(55, 128);
+            this.outputFolderPathTextBox.Name = "outputFolderPathTextBox";
+            this.outputFolderPathTextBox.Size = new System.Drawing.Size(417, 19);
+            this.outputFolderPathTextBox.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,6 +109,8 @@
             this.BackgroundImage = global::Code_Summarizer.Properties.Resources.GUIScriptSummary7;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 400);
+            this.Controls.Add(this.outputFolderPathTextBox);
+            this.Controls.Add(this.dragPanel);
             this.Controls.Add(this.closePanel);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.OpenFolderPanel);
@@ -105,6 +133,8 @@
         private System.Windows.Forms.Panel OpenFolderPanel;
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.Panel closePanel;
+        private System.Windows.Forms.Panel dragPanel;
+        private System.Windows.Forms.TextBox outputFolderPathTextBox;
     }
 }
 
