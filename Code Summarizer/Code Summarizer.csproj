@@ -110,7 +110,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Res\GUIScriptSummary7.png" />
+    <Content Include="Res\GUIScriptSummary8.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
