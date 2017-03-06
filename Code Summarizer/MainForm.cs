@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Code_Summarizer
@@ -27,12 +25,17 @@ namespace Code_Summarizer
                 csFiles = Directory.GetFiles(fbd.SelectedPath, "*.cs").ToList<string>();
                 SFI = new ScriptFileInfo(csFiles[0]);
                 folderPathTextBox.Text = fbd.SelectedPath;
-                SFI.Analyze();                
+                SFI.Analyze();
 
                 HtmlPageWriter hpw = new HtmlPageWriter("template.html");
-                hpw.SetContent(SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(),SFI._pathName);
+                hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName);
                 hpw.OutputWebPage("Output.html");
             }
+        }
+
+        private void ClosePanel_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

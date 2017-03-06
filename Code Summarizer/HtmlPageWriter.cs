@@ -7,6 +7,7 @@ namespace Code_Summarizer
 {
     class HtmlPageWriter
     {
+        const string NAMESPACE = "#NAMESPACE#";
         const string CLASSNAME = "#CLASSNAME#";
         const string DCLASSNAME = "#DCLASSNAME#";
         const string FILENAME = "#FILENAME#";
@@ -33,9 +34,9 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
             }
         }
-        public void SetContent(string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos,string fileName)
+        public void SetContent(string namespaceValue, string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName)
         {
-            _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName);
+            _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName).Replace(NAMESPACE, namespaceValue);
             _htmlContent = _htmlContent.Replace(DCLASSNAME, dClassName);
 
             string classTodos = "<ul style = \"color: rgb(200, 220, 220)\">";
