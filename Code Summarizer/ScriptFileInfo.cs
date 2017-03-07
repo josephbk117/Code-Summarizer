@@ -145,7 +145,7 @@ namespace Code_Summarizer
 
         private void ExtractUsingStatements(string line)
         {
-            string usingPattern = @"using \w+.*";
+            string usingPattern = @"using\s+\w+.*";
             Regex usingRegex = new Regex(usingPattern);
             foreach (Match match in usingRegex.Matches(line))
             {
@@ -156,7 +156,7 @@ namespace Code_Summarizer
 
         private string ExtractNamespace(string line)
         {
-            string namespacePattern = @"namespace \w+";
+            string namespacePattern = @"namespace\s+\w+";
             Regex namespaceRgx = new Regex(namespacePattern);
 
             bool isThereNamespace = false;
