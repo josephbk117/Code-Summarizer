@@ -50,15 +50,13 @@ namespace Code_Summarizer
 
             string memberFunctions = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string func in functions)
-            {
-                Console.WriteLine("Func original vals - " + func);
+            {                
                 string[] components = func.Split(' ');
                 components[0] = components[0].Insert(0, "<font color = rgb(70,150,200)>");
                 components[0] += " </font>";
-                components[1] = components[1].Insert(0, "<font color = rgb(90,200,240)>");
-                components[1] += " </font>";
-                Console.WriteLine("Last index = " + components[2]);
-                components[2] = "<font color = rgb(230,250,255)>" + func.Substring(func.IndexOf(components[2]));//components[2].Insert(0, "<font color = rgb(230,250,255)>");
+                components[1] = components[1].Insert(0, "<font color = rgb(50,80,220)>");
+                components[1] += " </font>";                
+                components[2] = "<font color = rgb(230,250,255)>" + func.Substring(func.IndexOf(components[2]));
                 components[2] += " </font>";
                 string newFunc = components[0] + components[1] + components[2];
                 memberFunctions += "<li>" + newFunc + "</li>";
