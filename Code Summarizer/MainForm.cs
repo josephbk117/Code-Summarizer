@@ -30,8 +30,8 @@ namespace Code_Summarizer
                 folderPathTextBox.Text = fbd.SelectedPath;
                 SFI.Analyze();
 
-                HtmlPageWriter hpw = new HtmlPageWriter("template.html");
-                hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName);
+                HtmlPageWriter hpw = new HtmlPageWriter(Environment.CurrentDirectory+"/Res/Templates/CoolBlue.html");
+                hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName,SFI.GetFileAcsessDate());
                 hpw.OutputWebPage("Output.html");
             }
         }

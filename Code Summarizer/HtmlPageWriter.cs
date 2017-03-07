@@ -15,6 +15,7 @@ namespace Code_Summarizer
         const string DEPENDENCIES = "#DEPENDENCIES#";
         const string MEMVARS = "#MEMVARS#";
         const string TODOS = "#TODOS#";
+        const string LAST_MODIFIED = "#LASTMODIFIED#";
         private string _filePath;
         private string _htmlContent = "";
 
@@ -34,10 +35,11 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
             }
         }
-        public void SetContent(string namespaceValue, string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName)
+        public void SetContent(string namespaceValue, string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName,string lastAcessTime)
         {
             _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName).Replace(NAMESPACE, namespaceValue);
             _htmlContent = _htmlContent.Replace(DCLASSNAME, dClassName);
+            _htmlContent = _htmlContent.Replace(LAST_MODIFIED, lastAcessTime);
 
             string classTodos = "<ul style = \"color: rgb(200, 220, 220)\">";
             foreach (string todo in todos)

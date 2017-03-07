@@ -11,10 +11,12 @@ namespace Code_Summarizer
         string _className;
         string _derievedClass;
         string _namespace;
+        string _lastModified;
         List<string> _memberVariables;
         List<string> _memberFunctions;
         List<string> _dependencies;
         List<string> _todos;
+
 
         bool enteredMainBody = false;
         public ScriptFileInfo(string pathName)
@@ -23,6 +25,7 @@ namespace Code_Summarizer
             _className = "NULL";
             _derievedClass = "None";
             _namespace = "None";
+            _lastModified = "NULL";
             _memberVariables = new List<string>();
             _memberFunctions = new List<string>();
             _dependencies = new List<string>();
@@ -37,6 +40,9 @@ namespace Code_Summarizer
                 using (StreamReader sr = new StreamReader(_pathName))
                 {
                     line = sr.ReadToEnd();
+                    FileInfo info = new FileInfo(_pathName);
+                    _lastModified = info.LastWriteTime.Day + "/" + info.LastWriteTime.Month + "/" +
+                        info.LastWriteTime.Year + " - " + info.LastWriteTime.ToLongTimeString();
                 }
             }
             catch (Exception e)
@@ -45,7 +51,6 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
                 return;
             }
-
             //Extract todos
             line = ExtractTodos(line);
             //Extract Dependencies
@@ -54,7 +59,6 @@ namespace Code_Summarizer
             line = ExtractNamespace(line);
             //Extract class and derieve class name
             line = ExtractClassAndDerievedClass(line);
-
 
             int firstusingStatement = line.IndexOf('{');
             int lastIndexOfBracket = line.LastIndexOf('}') - 1;
@@ -213,6 +217,10 @@ namespace Code_Summarizer
         public string GetNamespace()
         {
             return _namespace;
+        }
+        public string GetFileAcsessDate()
+        {
+            return _lastModified;
         }
     }
 }

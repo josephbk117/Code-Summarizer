@@ -32,8 +32,9 @@
             this.OpenFolderPanel = new System.Windows.Forms.Panel();
             this.closePanel = new System.Windows.Forms.Panel();
             this.dragPanel = new System.Windows.Forms.Panel();
-            this.outputFolderPathTextBox = new System.Windows.Forms.TextBox();
             this.titleLabel = new System.Windows.Forms.Label();
+            this.outputFolderPathTextBox = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dragPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,17 +82,6 @@
             this.dragPanel.MouseLeave += new System.EventHandler(this.dragPanel_MouseLeave);
             this.dragPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseMove);
             // 
-            // outputFolderPathTextBox
-            // 
-            this.outputFolderPathTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
-            this.outputFolderPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.outputFolderPathTextBox.Font = new System.Drawing.Font("Roboto Condensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.outputFolderPathTextBox.ForeColor = System.Drawing.Color.White;
-            this.outputFolderPathTextBox.Location = new System.Drawing.Point(55, 128);
-            this.outputFolderPathTextBox.Name = "outputFolderPathTextBox";
-            this.outputFolderPathTextBox.Size = new System.Drawing.Size(417, 19);
-            this.outputFolderPathTextBox.TabIndex = 5;
-            // 
             // titleLabel
             // 
             this.titleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -105,13 +95,36 @@
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "Code Summarizer";
             // 
+            // outputFolderPathTextBox
+            // 
+            this.outputFolderPathTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.outputFolderPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.outputFolderPathTextBox.Font = new System.Drawing.Font("Roboto Condensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.outputFolderPathTextBox.ForeColor = System.Drawing.Color.White;
+            this.outputFolderPathTextBox.Location = new System.Drawing.Point(55, 128);
+            this.outputFolderPathTextBox.Name = "outputFolderPathTextBox";
+            this.outputFolderPathTextBox.Size = new System.Drawing.Size(417, 19);
+            this.outputFolderPathTextBox.TabIndex = 5;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(37)))));
+            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.comboBox1.ForeColor = System.Drawing.Color.White;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(55, 176);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(276, 21);
+            this.comboBox1.TabIndex = 6;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::Code_Summarizer.Properties.Resources.GUIScriptSummary8;
+            this.BackgroundImage = global::Code_Summarizer.Properties.Resources.GUIScriptSummary10;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(640, 400);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.outputFolderPathTextBox);
             this.Controls.Add(this.dragPanel);
             this.Controls.Add(this.closePanel);
@@ -140,6 +153,7 @@
         private System.Windows.Forms.Panel dragPanel;
         private System.Windows.Forms.TextBox outputFolderPathTextBox;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
