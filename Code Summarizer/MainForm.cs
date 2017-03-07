@@ -42,19 +42,19 @@ namespace Code_Summarizer
         }
 
         private void DragPanel_MouseDown(object sender, MouseEventArgs e)
-        {            
+        {
             mouseOffset = new Point(-e.X, -e.Y);
-        }        
+        }
 
         private void DragPanel_MouseMove(object sender, MouseEventArgs e)
-        {            
+        {
             if (e.Button == MouseButtons.Left)
             {
                 Point mousePos = Control.MousePosition;
                 mousePos.Offset(mouseOffset.X, mouseOffset.Y);
                 Location = mousePos;
             }
-        }       
+        }
 
         private void dragPanel_MouseLeave(object sender, EventArgs e)
         {

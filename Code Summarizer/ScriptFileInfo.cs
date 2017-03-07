@@ -49,9 +49,12 @@ namespace Code_Summarizer
             //Extract todos
             line = ExtractTodos(line);
             //Extract Dependencies
-            ExtractUsingStatements(line);
+            ExtractUsingStatements(line); //order is important
             //Extract namespace
             line = ExtractNamespace(line);
+            //Extract class and derieve class name
+            line = ExtractClassAndDerievedClass(line);
+
 
             int firstusingStatement = line.IndexOf('{');
             int lastIndexOfBracket = line.LastIndexOf('}') - 1;
@@ -60,6 +63,21 @@ namespace Code_Summarizer
             for (int i = 0; i < chunk.Length; i++)
             {
 
+                if (!chunk[i].Contains("(") && enteredMainBody == false)
+                {
+
+                    chunk[i] = chunk[i].Trim();
+                    string pattern = @"(\w+\s+\w+\s+\w+.*\=)|(\w+\s+\w+)";
+                    Match result = Regex.Match(chunk[i], pattern);
+
+                    while (result.Success)
+                    {
+                        Console.WriteLine("Results : " + result.Value);
+                        _memberVariables.Add(result.Value.Replace("=", "").Trim());
+                        result = result.NextMatch();
+                    }
+                }
+
                 if (chunk[i].Contains("{"))
                 {
                     chunk[i] = chunk[i].Trim();
@@ -67,38 +85,7 @@ namespace Code_Summarizer
                     string dataType = "";
                     string functionName = "";
 
-                    if (chunk[i].Contains("class"))
-                    {
-                        int endOfClassChar = chunk[i].IndexOf(' ');
-                        int classOpeningBracket = chunk[i].IndexOf('{');
-                        string classAndDerived = chunk[i].Substring(endOfClassChar, classOpeningBracket).Replace(" ", "").Replace("{", "").Trim();
-                        Console.WriteLine("-----*****Class and derieved = " + classAndDerived);
-
-                        int colonPos = classAndDerived.IndexOf(":");
-                        try
-                        {
-                            _className = classAndDerived.Substring(0, colonPos);
-                        }
-                        catch
-                        {
-                            _className = classAndDerived;
-                        }
-                        try
-                        {
-                            _derievedClass = classAndDerived.Substring(colonPos, Math.Abs(_className.Length - classAndDerived.Length));
-                        }
-                        catch
-                        {
-                            _derievedClass = " None";
-                        }
-                        if (_derievedClass.Length <= 1)
-                        {
-                            _derievedClass = " None";
-                        }
-                        chunk[i] = chunk[i].Remove(0, classOpeningBracket + 1);
-                        chunk[i + 1] = chunk[i + 1].Insert(0, chunk[i] + "\r\n");
-                    }
-                    else if (chunk[i].Contains("(") && chunk[i].Contains(")"))
+                    if (chunk[i].Contains("(") && chunk[i].Contains(")"))
                     {
                         enteredMainBody = true;
 
@@ -123,24 +110,24 @@ namespace Code_Summarizer
                         _memberFunctions.Add(combined);
                     }
                 }
-                else
-                {
-                    if (!chunk[i].Contains("(") && enteredMainBody == false)
-                    {
-
-                        chunk[i] = chunk[i].Trim();
-                        string pattern = @"(public \w+ \w+)|(private \w+ \w+)|(protected \w+ \w+)|(static \w+ \w+)|(const \w+ \w+)|(readonly \w+ \w+)|(\w+ \w+)";
-                        Match result = Regex.Match(chunk[i], pattern);
-
-                        while (result.Success)
-                        {
-                            Console.WriteLine("Results : " + result.Value);
-                            _memberVariables.Add(result.Value);
-                            result = result.NextMatch();
-                        }
-                    }
-                }
             }
+        }
+
+        private string ExtractClassAndDerievedClass(string line)
+        {
+            string classAndDerievedClassPattern = @"(class\s+\w+\s+:\s+\w+)|(class\s+\w+)";
+            Regex classAndDerievedClassRgx = new Regex(classAndDerievedClassPattern);
+            string completeValue = "";
+            foreach (Match match in classAndDerievedClassRgx.Matches(line))
+            {
+                completeValue = match.Value;
+            }
+            line = line.Replace(completeValue, "");
+
+            _className = completeValue.Substring(0, completeValue.IndexOf(":") - 1).Replace("class", "").Trim();
+            _derievedClass = completeValue.Substring(completeValue.IndexOf(":") + 1).Trim();
+
+            return line;
         }
 
         private void ExtractUsingStatements(string line)
@@ -181,13 +168,17 @@ namespace Code_Summarizer
         private string ExtractTodos(string line)
         {
             Regex rgx = new Regex(@"//TODO.*\r\n");
-
             foreach (Match match in rgx.Matches(line))
             {
                 _todos.Add(match.Value.Substring(7));
                 line = line.Replace(match.Value, "");
             }
 
+            Regex comments = new Regex(@"//.*\r\n");
+            foreach (Match match in comments.Matches(line))
+            {
+                line = line.Replace(match.Value, "");
+            }
             return line;
         }
 
@@ -223,6 +214,5 @@ namespace Code_Summarizer
         {
             return _namespace;
         }
-
     }
 }
