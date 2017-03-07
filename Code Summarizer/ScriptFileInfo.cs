@@ -8,17 +8,16 @@ namespace Code_Summarizer
     class ScriptFileInfo
     {
         public string _pathName;
-        string _className;
-        string _derievedClass;
-        string _namespace;
-        string _lastModified;
-        List<string> _memberVariables;
-        List<string> _memberFunctions;
-        List<string> _dependencies;
-        List<string> _todos;
+        private string _className;
+        private string _derievedClass;
+        private string _namespace;
+        private string _lastModified;
+        private List<string> _memberVariables;
+        private List<string> _memberFunctions;
+        private List<string> _dependencies;
+        private List<string> _todos;
 
-
-        bool enteredMainBody = false;
+        private bool enteredMainBody = false;
         public ScriptFileInfo(string pathName)
         {
             this._pathName = pathName;

@@ -56,12 +56,12 @@ namespace Code_Summarizer
             }
         }
 
-        private void dragPanel_MouseLeave(object sender, EventArgs e)
+        private void DragPanel_MouseLeave(object sender, EventArgs e)
         {
             dragPanel.BackColor = Color.FromArgb(0, 0, 0, 0);
         }
 
-        private void dragPanel_MouseEnter(object sender, EventArgs e)
+        private void DragPanel_MouseEnter(object sender, EventArgs e)
         {
             dragPanel.BackColor = Color.FromArgb(90, 0, 0, 50);
         }

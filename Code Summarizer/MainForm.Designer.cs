@@ -44,15 +44,15 @@
             this.folderPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.folderPathTextBox.Font = new System.Drawing.Font("Roboto Condensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.folderPathTextBox.ForeColor = System.Drawing.Color.White;
-            this.folderPathTextBox.Location = new System.Drawing.Point(55, 78);
+            this.folderPathTextBox.Location = new System.Drawing.Point(59, 87);
             this.folderPathTextBox.Name = "folderPathTextBox";
-            this.folderPathTextBox.Size = new System.Drawing.Size(417, 19);
+            this.folderPathTextBox.Size = new System.Drawing.Size(441, 19);
             this.folderPathTextBox.TabIndex = 0;
             // 
             // OpenFolderPanel
             // 
             this.OpenFolderPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.OpenFolderPanel.Location = new System.Drawing.Point(478, 69);
+            this.OpenFolderPanel.Location = new System.Drawing.Point(516, 78);
             this.OpenFolderPanel.Name = "OpenFolderPanel";
             this.OpenFolderPanel.Size = new System.Drawing.Size(118, 36);
             this.OpenFolderPanel.TabIndex = 1;
@@ -61,9 +61,9 @@
             // closePanel
             // 
             this.closePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.closePanel.Location = new System.Drawing.Point(598, 2);
+            this.closePanel.Location = new System.Drawing.Point(640, 2);
             this.closePanel.Name = "closePanel";
-            this.closePanel.Size = new System.Drawing.Size(39, 33);
+            this.closePanel.Size = new System.Drawing.Size(37, 33);
             this.closePanel.TabIndex = 3;
             this.closePanel.Click += new System.EventHandler(this.ClosePanel_Click);
             this.closePanel.MouseEnter += new System.EventHandler(this.ClosePanel_MouseEnter);
@@ -75,11 +75,11 @@
             this.dragPanel.Controls.Add(this.titleLabel);
             this.dragPanel.Location = new System.Drawing.Point(41, 0);
             this.dragPanel.Name = "dragPanel";
-            this.dragPanel.Size = new System.Drawing.Size(554, 35);
+            this.dragPanel.Size = new System.Drawing.Size(593, 35);
             this.dragPanel.TabIndex = 4;
             this.dragPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseDown);
-            this.dragPanel.MouseEnter += new System.EventHandler(this.dragPanel_MouseEnter);
-            this.dragPanel.MouseLeave += new System.EventHandler(this.dragPanel_MouseLeave);
+            this.dragPanel.MouseEnter += new System.EventHandler(this.DragPanel_MouseEnter);
+            this.dragPanel.MouseLeave += new System.EventHandler(this.DragPanel_MouseLeave);
             this.dragPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DragPanel_MouseMove);
             // 
             // titleLabel
@@ -101,9 +101,9 @@
             this.outputFolderPathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.outputFolderPathTextBox.Font = new System.Drawing.Font("Roboto Condensed", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputFolderPathTextBox.ForeColor = System.Drawing.Color.White;
-            this.outputFolderPathTextBox.Location = new System.Drawing.Point(55, 128);
+            this.outputFolderPathTextBox.Location = new System.Drawing.Point(59, 142);
             this.outputFolderPathTextBox.Name = "outputFolderPathTextBox";
-            this.outputFolderPathTextBox.Size = new System.Drawing.Size(417, 19);
+            this.outputFolderPathTextBox.Size = new System.Drawing.Size(441, 19);
             this.outputFolderPathTextBox.TabIndex = 5;
             // 
             // comboBox1
@@ -112,9 +112,9 @@
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox1.ForeColor = System.Drawing.Color.White;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(55, 176);
+            this.comboBox1.Location = new System.Drawing.Point(59, 195);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(276, 21);
+            this.comboBox1.Size = new System.Drawing.Size(294, 21);
             this.comboBox1.TabIndex = 6;
             // 
             // MainForm
@@ -123,7 +123,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::Code_Summarizer.Properties.Resources.GUIScriptSummary10;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(640, 400);
+            this.ClientSize = new System.Drawing.Size(680, 440);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.outputFolderPathTextBox);
             this.Controls.Add(this.dragPanel);
