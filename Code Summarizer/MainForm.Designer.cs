@@ -38,21 +38,24 @@
             // 
             // openFolderPathTextBox
             // 
-            this.openFolderPathTextBox.Location = new System.Drawing.Point(13, 13);
+            this.openFolderPathTextBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.openFolderPathTextBox.Location = new System.Drawing.Point(12, 34);
             this.openFolderPathTextBox.Name = "openFolderPathTextBox";
-            this.openFolderPathTextBox.Size = new System.Drawing.Size(461, 20);
+            this.openFolderPathTextBox.Size = new System.Drawing.Size(461, 27);
             this.openFolderPathTextBox.TabIndex = 0;
             // 
             // outputFolderPathTextBox
             // 
-            this.outputFolderPathTextBox.Location = new System.Drawing.Point(14, 70);
+            this.outputFolderPathTextBox.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F);
+            this.outputFolderPathTextBox.Location = new System.Drawing.Point(12, 94);
             this.outputFolderPathTextBox.Name = "outputFolderPathTextBox";
-            this.outputFolderPathTextBox.Size = new System.Drawing.Size(461, 20);
+            this.outputFolderPathTextBox.Size = new System.Drawing.Size(461, 27);
             this.outputFolderPathTextBox.TabIndex = 1;
             // 
             // openFolderButton
             // 
-            this.openFolderButton.Location = new System.Drawing.Point(482, 11);
+            this.openFolderButton.Font = new System.Drawing.Font("Roboto Condensed", 9.75F, System.Drawing.FontStyle.Bold);
+            this.openFolderButton.Location = new System.Drawing.Point(482, 34);
             this.openFolderButton.Name = "openFolderButton";
             this.openFolderButton.Size = new System.Drawing.Size(187, 23);
             this.openFolderButton.TabIndex = 2;
@@ -62,7 +65,8 @@
             // 
             // outputFolderButton
             // 
-            this.outputFolderButton.Location = new System.Drawing.Point(482, 68);
+            this.outputFolderButton.Font = new System.Drawing.Font("Roboto Condensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.outputFolderButton.Location = new System.Drawing.Point(482, 94);
             this.outputFolderButton.Name = "outputFolderButton";
             this.outputFolderButton.Size = new System.Drawing.Size(187, 23);
             this.outputFolderButton.TabIndex = 3;
@@ -73,16 +77,17 @@
             // comboBox
             // 
             this.comboBox.FormattingEnabled = true;
-            this.comboBox.Location = new System.Drawing.Point(14, 40);
+            this.comboBox.Location = new System.Drawing.Point(14, 67);
             this.comboBox.Name = "comboBox";
             this.comboBox.Size = new System.Drawing.Size(655, 21);
             this.comboBox.TabIndex = 4;
             // 
             // summaryGenerateButton
             // 
-            this.summaryGenerateButton.Location = new System.Drawing.Point(270, 96);
+            this.summaryGenerateButton.Font = new System.Drawing.Font("Roboto Condensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.summaryGenerateButton.Location = new System.Drawing.Point(232, 127);
             this.summaryGenerateButton.Name = "summaryGenerateButton";
-            this.summaryGenerateButton.Size = new System.Drawing.Size(142, 44);
+            this.summaryGenerateButton.Size = new System.Drawing.Size(205, 44);
             this.summaryGenerateButton.TabIndex = 5;
             this.summaryGenerateButton.Text = "Generate Code Summary";
             this.summaryGenerateButton.UseVisualStyleBackColor = true;
@@ -93,7 +98,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(680, 145);
+            this.ClientSize = new System.Drawing.Size(680, 183);
             this.Controls.Add(this.summaryGenerateButton);
             this.Controls.Add(this.comboBox);
             this.Controls.Add(this.outputFolderButton);
@@ -101,6 +106,7 @@
             this.Controls.Add(this.outputFolderPathTextBox);
             this.Controls.Add(this.openFolderPathTextBox);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(50, 50);
