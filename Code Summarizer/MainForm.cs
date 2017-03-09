@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,69 +10,61 @@ namespace Code_Summarizer
     {
         FolderBrowserDialog fbd = new FolderBrowserDialog();
         List<string> csFiles = new List<string>();
-
         ScriptFileInfo SFI;
-        Point mouseOffset;
+        string[] templates;
+
         public MainForm()
         {
             InitializeComponent();
-            mouseOffset = new Point(0, 0);
+            InitTemplates();
         }
 
-        private void OpenFolderPanel_Click(object sender, EventArgs e)
+        private void OpenFolderButton_Click(object sender, EventArgs e)
         {
             if (fbd.ShowDialog() == DialogResult.OK)
             {
-                folderPathTextBox.Text = fbd.SelectedPath;
+                openFolderPathTextBox.Text = fbd.SelectedPath;
                 csFiles = Directory.GetFiles(fbd.SelectedPath, "*.cs").ToList<string>();
-                SFI = new ScriptFileInfo(csFiles[0]);
-                folderPathTextBox.Text = fbd.SelectedPath;
-                SFI.Analyze();
-
-                HtmlPageWriter hpw = new HtmlPageWriter(Environment.CurrentDirectory+"/Res/Templates/CoolBlue.html");
-                hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName,SFI.GetFileAcsessDate());
-                hpw.OutputWebPage("Output.html");
+                openFolderPathTextBox.Text = fbd.SelectedPath;
             }
         }
 
-        private void ClosePanel_Click(object sender, EventArgs e)
+        private void GenerateClassSummary(string filePath)
         {
-            Application.Exit();
+            SFI = new ScriptFileInfo(filePath);
+            SFI.Analyze();
+
+            HtmlPageWriter hpw = new HtmlPageWriter(templates[comboBox.SelectedIndex]);
+            hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName, SFI.GetFileAcsessDate());
+            hpw.OutputWebPage(outputFolderPathTextBox.Text+"/"+SFI.GetClassName() + " Doc.html");
+            
         }
 
-        private void DragPanel_MouseDown(object sender, MouseEventArgs e)
+        private void InitTemplates()
         {
-            mouseOffset = new Point(-e.X, -e.Y);
-        }
-
-        private void DragPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
+            templates = Directory.GetFiles(Environment.CurrentDirectory + "/Res/Templates/", "*.html");
+            for (int i = 0; i < templates.Length; i++)
             {
-                Point mousePos = Control.MousePosition;
-                mousePos.Offset(mouseOffset.X, mouseOffset.Y);
-                Location = mousePos;
+                string templateName = templates[i].Substring(templates[i].LastIndexOf("/") + 1).Replace(".html", "");
+                comboBox.Items.Add(templateName);
             }
         }
 
-        private void DragPanel_MouseLeave(object sender, EventArgs e)
+        private void OutputFolderButton_Click(object sender, EventArgs e)
         {
-            dragPanel.BackColor = Color.FromArgb(0, 0, 0, 0);
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                outputFolderPathTextBox.Text = fbd.SelectedPath;
+            }
         }
 
-        private void DragPanel_MouseEnter(object sender, EventArgs e)
+        private void SummaryGenerateButton_Click(object sender, EventArgs e)
         {
-            dragPanel.BackColor = Color.FromArgb(90, 0, 0, 50);
-        }
-
-        private void ClosePanel_MouseEnter(object sender, EventArgs e)
-        {
-            closePanel.BackColor = Color.FromArgb(90, 0, 0, 50);
-        }
-
-        private void ClosePanel_MouseLeave(object sender, EventArgs e)
-        {
-            closePanel.BackColor = Color.FromArgb(0, 0, 0, 0);
-        }
+            for (int i = 0; i < csFiles.Count; i++)
+            {
+                GenerateClassSummary(csFiles[i]);
+            }            
+        }        
     }
 }
