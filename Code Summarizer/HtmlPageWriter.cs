@@ -18,10 +18,16 @@ namespace Code_Summarizer
         const string LAST_MODIFIED = "#LASTMODIFIED#";
         private string _filePath;
         private string _htmlContent = "";
+        public string AcessSpecifierColour  { set; get; }
+        public string DataTypeSpecifierColour { set; get; }
+        public string IdentifierSpecifierColour { set; get; }
 
         public HtmlPageWriter(string filePath)
         {
             this._filePath = filePath;
+            AcessSpecifierColour = "rgb(200, 220, 220)";
+            DataTypeSpecifierColour = "rgb(200, 220, 220)";
+            IdentifierSpecifierColour = "rgb(200, 220, 220)";
             try
             {   // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader(_filePath))
@@ -41,7 +47,7 @@ namespace Code_Summarizer
             _htmlContent = _htmlContent.Replace(DCLASSNAME, dClassName);
             _htmlContent = _htmlContent.Replace(LAST_MODIFIED, lastAcessTime);
 
-            string classTodos = "<ul style = \"color: rgb(200, 220, 220)\">";
+            string classTodos = "<ul style = \"color: rgb(200, 220, 220)+'\">";
             foreach (string todo in todos)
             {
                 classTodos += "<li>" + todo + "</li>";
@@ -54,11 +60,11 @@ namespace Code_Summarizer
             foreach (string func in functions)
             {                
                 string[] components = func.Split(' ');
-                components[0] = components[0].Insert(0, "<font color = rgb(70,150,200)>");
+                components[0] = components[0].Insert(0, "<font color = "+AcessSpecifierColour+">");
                 components[0] += " </font>";
-                components[1] = components[1].Insert(0, "<font color = rgb(50,80,220)>");
+                components[1] = components[1].Insert(0, "<font color = " + DataTypeSpecifierColour + ">");
                 components[1] += " </font>";                
-                components[2] = "<font color = rgb(230,250,255)>" + func.Substring(func.IndexOf(components[2]));
+                components[2] = "<font color = "+IdentifierSpecifierColour+">" + func.Substring(func.IndexOf(components[2]));
                 components[2] += " </font>";
                 string newFunc = components[0] + components[1] + components[2];
                 memberFunctions += "<li>" + newFunc + "</li>";

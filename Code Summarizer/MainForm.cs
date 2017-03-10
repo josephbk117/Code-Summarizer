@@ -12,6 +12,7 @@ namespace Code_Summarizer
         List<string> csFiles = new List<string>();
         ScriptFileInfo SFI;
         string[] templates;
+        HtmlPageWriter hpw;
 
         public MainForm()
         {
@@ -34,7 +35,12 @@ namespace Code_Summarizer
             SFI = new ScriptFileInfo(filePath);
             SFI.Analyze();
 
-            HtmlPageWriter hpw = new HtmlPageWriter(templates[comboBox.SelectedIndex]);
+            hpw = new HtmlPageWriter(templates[comboBox.SelectedIndex])
+            {
+                AcessSpecifierColour = FormattedColor(acessSpecifierPanel.BackColor),
+                DataTypeSpecifierColour = FormattedColor(dataTypeSpecifierPanel.BackColor),
+                IdentifierSpecifierColour = FormattedColor(identifierSpecifierPanel.BackColor)
+            };
             hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName, SFI.GetFileAcsessDate());
             hpw.OutputWebPage(outputFolderPathTextBox.Text+"/"+SFI.GetClassName() + " Doc.html");
             
@@ -65,6 +71,37 @@ namespace Code_Summarizer
             {
                 GenerateClassSummary(csFiles[i]);
             }            
-        }        
+        }
+
+        private void AcessSpecifierPanel_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                acessSpecifierPanel.BackColor = cd.Color;
+            }
+        }
+
+        private void DataTypeSpecifierPanel_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                dataTypeSpecifierPanel.BackColor = cd.Color;
+            }
+        }
+
+        private void IdentifierSpecifierPanel_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+            {
+                identifierSpecifierPanel.BackColor = cd.Color;
+            }
+        }
+        private string FormattedColor(System.Drawing.Color color)
+        {
+            return "rgb("+color.R + "," + color.G + "," + color.B+")";
+        }
     }
 }
