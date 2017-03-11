@@ -89,7 +89,7 @@ namespace Code_Summarizer
             memberVariables += "</ol>";
             _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
 
-        }
+        }        
         public void OutputWebPage(string outputPath)
         {
             using (StreamWriter sw = new StreamWriter(outputPath))

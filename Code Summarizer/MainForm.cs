@@ -42,8 +42,9 @@ namespace Code_Summarizer
                 IdentifierSpecifierColour = FormattedColor(identifierSpecifierPanel.BackColor)
             };
             hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName, SFI.GetFileAcsessDate());
-            hpw.OutputWebPage(outputFolderPathTextBox.Text+"/"+SFI.GetClassName() + " Doc.html");
-            
+            hpw.OutputWebPage(outputFolderPathTextBox.Text + "/" + SFI.GetClassName() + " Doc.html");
+
+            HtmlNavigationManager.AddClass(SFI.GetClassName());
         }
 
         private void InitTemplates()
@@ -70,7 +71,8 @@ namespace Code_Summarizer
             for (int i = 0; i < csFiles.Count; i++)
             {
                 GenerateClassSummary(csFiles[i]);
-            }            
+            }
+            HtmlNavigationManager.WriteNavigationPage(outputFolderPathTextBox.Text + "/index.html");
         }
 
         private void AcessSpecifierPanel_Click(object sender, EventArgs e)
@@ -101,7 +103,7 @@ namespace Code_Summarizer
         }
         private string FormattedColor(System.Drawing.Color color)
         {
-            return "rgb("+color.R + "," + color.G + "," + color.B+")";
+            return "rgb(" + color.R + "," + color.G + "," + color.B + ")";
         }
     }
 }

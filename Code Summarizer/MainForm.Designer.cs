@@ -36,10 +36,10 @@
             this.comboBox = new System.Windows.Forms.ComboBox();
             this.summaryGenerateButton = new System.Windows.Forms.Button();
             this.acessSpecifierPanel = new System.Windows.Forms.Panel();
-            this.dataTypeSpecifierPanel = new System.Windows.Forms.Panel();
-            this.identifierSpecifierPanel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.dataTypeSpecifierPanel = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
+            this.identifierSpecifierPanel = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.acessSpecifierPanel.SuspendLayout();
             this.dataTypeSpecifierPanel.SuspendLayout();
@@ -118,26 +118,6 @@
             this.acessSpecifierPanel.TabIndex = 6;
             this.acessSpecifierPanel.Click += new System.EventHandler(this.AcessSpecifierPanel_Click);
             // 
-            // dataTypeSpecifierPanel
-            // 
-            this.dataTypeSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.dataTypeSpecifierPanel.Controls.Add(this.label2);
-            this.dataTypeSpecifierPanel.Location = new System.Drawing.Point(241, 118);
-            this.dataTypeSpecifierPanel.Name = "dataTypeSpecifierPanel";
-            this.dataTypeSpecifierPanel.Size = new System.Drawing.Size(197, 59);
-            this.dataTypeSpecifierPanel.TabIndex = 7;
-            this.dataTypeSpecifierPanel.Click += new System.EventHandler(this.DataTypeSpecifierPanel_Click);
-            // 
-            // identifierSpecifierPanel
-            // 
-            this.identifierSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.identifierSpecifierPanel.Controls.Add(this.label3);
-            this.identifierSpecifierPanel.Location = new System.Drawing.Point(471, 118);
-            this.identifierSpecifierPanel.Name = "identifierSpecifierPanel";
-            this.identifierSpecifierPanel.Size = new System.Drawing.Size(197, 59);
-            this.identifierSpecifierPanel.TabIndex = 7;
-            this.identifierSpecifierPanel.Click += new System.EventHandler(this.IdentifierSpecifierPanel_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -150,6 +130,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Access Specifier Colour";
             // 
+            // dataTypeSpecifierPanel
+            // 
+            this.dataTypeSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.dataTypeSpecifierPanel.Controls.Add(this.label2);
+            this.dataTypeSpecifierPanel.Location = new System.Drawing.Point(241, 118);
+            this.dataTypeSpecifierPanel.Name = "dataTypeSpecifierPanel";
+            this.dataTypeSpecifierPanel.Size = new System.Drawing.Size(197, 59);
+            this.dataTypeSpecifierPanel.TabIndex = 7;
+            this.dataTypeSpecifierPanel.Click += new System.EventHandler(this.DataTypeSpecifierPanel_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -161,6 +151,16 @@
             this.label2.Size = new System.Drawing.Size(182, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "Data Type Specifier Colour";
+            // 
+            // identifierSpecifierPanel
+            // 
+            this.identifierSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.identifierSpecifierPanel.Controls.Add(this.label3);
+            this.identifierSpecifierPanel.Location = new System.Drawing.Point(471, 118);
+            this.identifierSpecifierPanel.Name = "identifierSpecifierPanel";
+            this.identifierSpecifierPanel.Size = new System.Drawing.Size(197, 59);
+            this.identifierSpecifierPanel.TabIndex = 7;
+            this.identifierSpecifierPanel.Click += new System.EventHandler(this.IdentifierSpecifierPanel_Click);
             // 
             // label3
             // 
@@ -198,7 +198,6 @@
             this.MinimumSize = new System.Drawing.Size(50, 50);
             this.Name = "MainForm";
             this.Text = "Code Summarizer";
-            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.acessSpecifierPanel.ResumeLayout(false);
             this.acessSpecifierPanel.PerformLayout();
             this.dataTypeSpecifierPanel.ResumeLayout(false);

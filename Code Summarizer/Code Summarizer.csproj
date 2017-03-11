@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HtmlNavigationManager.cs" />
+    <Compile Include="HtmlNavigationWriter.cs" />
     <Compile Include="HtmlPageWriter.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
