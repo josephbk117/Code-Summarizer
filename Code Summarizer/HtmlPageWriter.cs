@@ -18,7 +18,7 @@ namespace Code_Summarizer
         const string LAST_MODIFIED = "#LASTMODIFIED#";
         private string _filePath;
         private string _htmlContent = "";
-        public string AcessSpecifierColour  { set; get; }
+        public string AcessSpecifierColour { set; get; }
         public string DataTypeSpecifierColour { set; get; }
         public string IdentifierSpecifierColour { set; get; }
 
@@ -41,7 +41,7 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
             }
         }
-        public void SetContent(string namespaceValue, string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName,string lastAcessTime)
+        public void SetContent(string namespaceValue, string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName, string lastAcessTime)
         {
             _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName).Replace(NAMESPACE, namespaceValue);
             _htmlContent = _htmlContent.Replace(DCLASSNAME, dClassName);
@@ -58,13 +58,13 @@ namespace Code_Summarizer
 
             string memberFunctions = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string func in functions)
-            {                
+            {
                 string[] components = func.Split(' ');
-                components[0] = components[0].Insert(0, "<font color = "+AcessSpecifierColour+">");
+                components[0] = components[0].Insert(0, "<font color = " + AcessSpecifierColour + ">");
                 components[0] += " </font>";
                 components[1] = components[1].Insert(0, "<font color = " + DataTypeSpecifierColour + ">");
-                components[1] += " </font>";                
-                components[2] = "<font color = "+IdentifierSpecifierColour+">" + func.Substring(func.IndexOf(components[2]));
+                components[1] += " </font>";
+                components[2] = "<font color = " + IdentifierSpecifierColour + ">" + func.Substring(func.IndexOf(components[2]));
                 components[2] += " </font>";
                 string newFunc = components[0] + components[1] + components[2];
                 memberFunctions += "<li>" + newFunc + "</li>";
@@ -89,7 +89,7 @@ namespace Code_Summarizer
             memberVariables += "</ol>";
             _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
 
-        }        
+        }
         public void OutputWebPage(string outputPath)
         {
             using (StreamWriter sw = new StreamWriter(outputPath))

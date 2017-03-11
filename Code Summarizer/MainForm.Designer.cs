@@ -99,7 +99,7 @@
             // 
             this.summaryGenerateButton.BackColor = System.Drawing.Color.White;
             this.summaryGenerateButton.Font = new System.Drawing.Font("Orbitron", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.summaryGenerateButton.Location = new System.Drawing.Point(160, 206);
+            this.summaryGenerateButton.Location = new System.Drawing.Point(182, 206);
             this.summaryGenerateButton.Name = "summaryGenerateButton";
             this.summaryGenerateButton.Size = new System.Drawing.Size(312, 44);
             this.summaryGenerateButton.TabIndex = 5;
@@ -110,7 +110,7 @@
             // 
             // acessSpecifierPanel
             // 
-            this.acessSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.acessSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             this.acessSpecifierPanel.Controls.Add(this.label1);
             this.acessSpecifierPanel.Location = new System.Drawing.Point(11, 118);
             this.acessSpecifierPanel.Name = "acessSpecifierPanel";
@@ -132,7 +132,7 @@
             // 
             // dataTypeSpecifierPanel
             // 
-            this.dataTypeSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.dataTypeSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             this.dataTypeSpecifierPanel.Controls.Add(this.label2);
             this.dataTypeSpecifierPanel.Location = new System.Drawing.Point(241, 118);
             this.dataTypeSpecifierPanel.Name = "dataTypeSpecifierPanel";
@@ -154,7 +154,7 @@
             // 
             // identifierSpecifierPanel
             // 
-            this.identifierSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.identifierSpecifierPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(150)))), ((int)(((byte)(150)))));
             this.identifierSpecifierPanel.Controls.Add(this.label3);
             this.identifierSpecifierPanel.Location = new System.Drawing.Point(471, 118);
             this.identifierSpecifierPanel.Name = "identifierSpecifierPanel";
