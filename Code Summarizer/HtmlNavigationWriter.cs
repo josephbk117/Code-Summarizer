@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Code_Summarizer
 {
@@ -13,14 +10,14 @@ namespace Code_Summarizer
         private string _templateFilePath = "";
         private string _outputFilePath = "";
         private string _htmlContent = "";
-        private List<string> _classes;
-        public HtmlNavigationWriter(List<string> classes,string pathOfTemplate,string pathOfoutputFile)
+        private List<string> _classDocOutputPath;
+        public HtmlNavigationWriter(List<string> classes, string pathOfTemplate, string pathOfoutputFile)
         {
             this._outputFilePath = pathOfoutputFile;
             this._templateFilePath = pathOfTemplate;
-            this._classes = classes;
+            this._classDocOutputPath = classes;
             try
-            {   
+            {
                 using (StreamReader sr = new StreamReader(pathOfTemplate))
                 {
                     _htmlContent = sr.ReadToEnd();
@@ -28,19 +25,20 @@ namespace Code_Summarizer
             }
             catch (Exception e)
             {
-                Console.WriteLine("The file could not be read:");
+                Console.WriteLine("The index template file could not be read:");
                 Console.WriteLine(e.Message);
             }
         }
         public void OutputHtmlPage()
         {
             string classList = "<ol>";
-            foreach (string className in _classes)
+            foreach (string classPath in _classDocOutputPath)
             {
-                classList += "<li>" + className + "</li>";
+                string className = classPath.Substring(classPath.LastIndexOf('/')+1).Replace(" Doc.html","").Trim();
+                classList += "<li><a href = \"file:///"+classPath+"\">" + className + "</a></li>";
             }
             classList += "</ol>";
-            _htmlContent = _htmlContent.Replace(CLASSES,classList);
+            _htmlContent = _htmlContent.Replace(CLASSES, classList);
             using (StreamWriter sw = new StreamWriter(_outputFilePath))
             {
                 sw.WriteLine(_htmlContent);

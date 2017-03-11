@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Code_Summarizer
 {
@@ -21,7 +16,7 @@ namespace Code_Summarizer
         }
         public static void WriteNavigationPage(string path)
         {
-            HtmlNavigationWriter hn = new HtmlNavigationWriter(classes, "indexTemplate.html", path);
+            HtmlNavigationWriter hn = new HtmlNavigationWriter(classes, "Res/IndexTemplates/indexTemplate.html", path);
             hn.OutputHtmlPage();
         }
     }
