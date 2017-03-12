@@ -159,9 +159,18 @@ namespace Code_Summarizer
                 completeValue = match.Value;
             }
             line = line.Replace(completeValue, "");
-
-            _className = completeValue.Substring(0, completeValue.IndexOf(":") - 1).Replace("class", "").Trim();
-            _derievedClass = completeValue.Substring(completeValue.IndexOf(":") + 1).Trim();
+            //Support both derieved no erivation
+            if (completeValue.Contains(":"))
+            {
+                _className = completeValue.Substring(0, completeValue.IndexOf(":") - 1).Replace("class", "").Trim();
+                _derievedClass = completeValue.Substring(completeValue.IndexOf(":") + 1).Trim();
+            }
+            else
+            {
+                _className = completeValue.Replace("class","").Trim();
+                _derievedClass = "None";
+            }
+            
             int indexOfFirstOpeningBracket = line.IndexOf('{');
             int indexOfLastClosingBracket = line.LastIndexOf('}');
             line = line.Substring(indexOfFirstOpeningBracket + 1, (indexOfLastClosingBracket - 1) - (indexOfFirstOpeningBracket + 1));
