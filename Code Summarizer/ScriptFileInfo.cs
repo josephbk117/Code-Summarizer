@@ -17,7 +17,27 @@ namespace Code_Summarizer
         private List<string> _dependencies;
         private List<string> _todos;
 
-        private bool enteredMainBody = false;
+        //To help out with removing function body
+        class Pair
+        {
+            private int Value1;
+            private int Value2;
+
+            public Pair(int val1, int val2)
+            {
+                Value1 = val1;
+                Value2 = val2;
+            }
+            public int getValue1()
+            {
+                return Value1;
+            }
+            public int getValue2()
+            {
+                return Value2;
+            }
+        }
+
         public ScriptFileInfo(string pathName)
         {
             this._pathName = pathName;
@@ -83,10 +103,21 @@ namespace Code_Summarizer
             Regex functionRegex = new Regex(functionPattern);
             foreach (Match match in functionRegex.Matches(line))
             {
-                _memberFunctions.Add(match.Value);
+                //TODO potential error zone can not support more than one space b/w words
+
+                string func = match.Value;
+
+                string temp = func.Substring(0, match.Value.IndexOf('(') - 1);
+
+                int numOfSpaces = temp.Split(' ').Length - 1;
+                Console.WriteLine("Function name = " + func + ", spaces = " + numOfSpaces);
+                if (numOfSpaces == 1)
+                {
+                    func = func.Insert(0, "private ");
+                }
+                _memberFunctions.Add(func);
                 line = line.Replace(match.Value, "");
             }
-
             return line;
         }
 
@@ -225,24 +256,5 @@ namespace Code_Summarizer
         {
             return _lastModified;
         }
-    }
-}
-class Pair
-{
-    private int Value1;
-    private int Value2;
-
-    public Pair(int val1, int val2)
-    {
-        Value1 = val1;
-        Value2 = val2;
-    }
-    public int getValue1()
-    {
-        return Value1;
-    }
-    public int getValue2()
-    {
-        return Value2;
     }
 }
