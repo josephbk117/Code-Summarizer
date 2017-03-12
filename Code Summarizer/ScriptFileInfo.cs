@@ -89,7 +89,7 @@ namespace Code_Summarizer
 
         private void ExtractMemberVariables(string line)
         {
-            string variablePattern = @"(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
+            string variablePattern = @"(\w+<\w+>\s+\w+)|(\w+\s+\w+<\w+>\s+\w+)|(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
             Regex variableRegex = new Regex(variablePattern);
             foreach (Match match in variableRegex.Matches(line))
             {
@@ -148,18 +148,19 @@ namespace Code_Summarizer
             line = temp;
             return line;
         }
-
+        //TODO : Do recursive class searches ...  
         private string ExtractClassAndDerievedClass(string line)
         {
             string classAndDerievedClassPattern = @"(class\s+\w+\s+:\s+\w+)|(class\s+\w+)";
-            Regex classAndDerievedClassRgx = new Regex(classAndDerievedClassPattern);
+            Regex classAndDerievedClassRegex = new Regex(classAndDerievedClassPattern);
             string completeValue = "";
-            foreach (Match match in classAndDerievedClassRgx.Matches(line))
+            /*foreach (Match match in classAndDerievedClassRgx.Matches(line))
             {
                 completeValue = match.Value;
-            }
+            }*/
+            completeValue = classAndDerievedClassRegex.Match(line).Value;
             line = line.Replace(completeValue, "");
-            //Support both derieved no erivation
+            //Support both derieved no derivation
             if (completeValue.Contains(":"))
             {
                 _className = completeValue.Substring(0, completeValue.IndexOf(":") - 1).Replace("class", "").Trim();
@@ -167,10 +168,10 @@ namespace Code_Summarizer
             }
             else
             {
-                _className = completeValue.Replace("class","").Trim();
+                _className = completeValue.Replace("class", "").Trim();
                 _derievedClass = "None";
             }
-            
+
             int indexOfFirstOpeningBracket = line.IndexOf('{');
             int indexOfLastClosingBracket = line.LastIndexOf('}');
             line = line.Substring(indexOfFirstOpeningBracket + 1, (indexOfLastClosingBracket - 1) - (indexOfFirstOpeningBracket + 1));
