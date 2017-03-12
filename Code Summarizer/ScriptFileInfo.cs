@@ -58,62 +58,64 @@ namespace Code_Summarizer
             line = ExtractNamespace(line);
             //Extract class and derieve class name
             line = ExtractClassAndDerievedClass(line);
+            //Remove body of functions
+            line = RemoveFunctionBodies(line);
+            //First extract functions then only variables
+            line = ExtractMemberFunctions(line);
+            //Extact variables
+            ExtractMemberVariables(line);
 
-            int firstusingStatement = line.IndexOf('{');
-            int lastIndexOfBracket = line.LastIndexOf('}') - 1;
-            line = line.Substring(firstusingStatement, lastIndexOfBracket - firstusingStatement);
-            string[] chunk = line.Split(';');
-            for (int i = 0; i < chunk.Length; i++)
+        }
+
+        private void ExtractMemberVariables(string line)
+        {
+            string variablePattern = @"(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
+            Regex variableRegex = new Regex(variablePattern);
+            foreach (Match match in variableRegex.Matches(line))
             {
+                _memberVariables.Add(match.Value);
+            }
+        }
 
-                if (!chunk[i].Contains("(") && enteredMainBody == false)
+        private string ExtractMemberFunctions(string line)
+        {
+            string functionPattern = @"(\w+\s+\w+\s*?\(.*\))|(\w+\s+\w+\s+\w+\s*?\(.*\))";
+            Regex functionRegex = new Regex(functionPattern);
+            foreach (Match match in functionRegex.Matches(line))
+            {
+                _memberFunctions.Add(match.Value);
+                line = line.Replace(match.Value, "");
+            }
+
+            return line;
+        }
+
+        private static string RemoveFunctionBodies(string line)
+        {
+            Stack<int> bracketPosition = new Stack<int>();
+            List<Pair> codeSections = new List<Pair>();
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] == '{')
+                    bracketPosition.Push(i);
+                else if (line[i] == '}')
                 {
-
-                    chunk[i] = chunk[i].Trim();
-                    string pattern = @"(\w+\s+\w+\s+\w+.*\=)|(\w+\s+\w+)";
-                    Match result = Regex.Match(chunk[i], pattern);
-
-                    while (result.Success)
+                    if (bracketPosition.Count == 1)
                     {
-                        Console.WriteLine("Results : " + result.Value);
-                        _memberVariables.Add(result.Value.Replace("=", "").Trim());
-                        result = result.NextMatch();
+                        codeSections.Add(new Pair(bracketPosition.Peek(), i));
                     }
-                }
-
-                if (chunk[i].Contains("{"))
-                {
-                    chunk[i] = chunk[i].Trim();
-
-                    string dataType = "";
-                    string functionName = "";
-
-                    if (chunk[i].Contains("(") && chunk[i].Contains(")"))
-                    {
-                        enteredMainBody = true;
-
-                        chunk[i] = chunk[i].Replace("\r\n", "").Replace("}", "").Replace("{", "").Trim();
-                        int firstBlankSpacePos = chunk[i].IndexOf(' ');
-                        int firstBracketPos = chunk[i].IndexOf('(');
-                        int closingBracketPos = chunk[i].IndexOf(')', firstBlankSpacePos);
-                        dataType = chunk[i].Substring(0, firstBlankSpacePos);
-                        functionName = chunk[i].Substring(firstBlankSpacePos, closingBracketPos);
-                        functionName = functionName.Substring(0, functionName.IndexOf(')') + 1);
-                        dataType = dataType.Trim().Replace(" ", "");
-
-                        string combined = dataType + functionName;
-                        string tempWithoutParameter = combined.Substring(0, combined.IndexOf('('));
-                        int wordCount = tempWithoutParameter.Split(' ').Length - 1;
-
-                        if (wordCount == 1)
-                        {
-                            combined = combined.Insert(0, "private ");
-                        }
-
-                        _memberFunctions.Add(combined);
-                    }
+                    bracketPosition.Pop();
                 }
             }
+            string temp = line;
+            foreach (Pair pair in codeSections)
+            {
+                Console.WriteLine(line.Substring(pair.getValue1(), pair.getValue2() - pair.getValue1()));
+                temp = temp.Replace(line.Substring(pair.getValue1(), (pair.getValue2() + 1) - pair.getValue1()), "");
+            }
+
+            line = temp;
+            return line;
         }
 
         private string ExtractClassAndDerievedClass(string line)
@@ -129,6 +131,9 @@ namespace Code_Summarizer
 
             _className = completeValue.Substring(0, completeValue.IndexOf(":") - 1).Replace("class", "").Trim();
             _derievedClass = completeValue.Substring(completeValue.IndexOf(":") + 1).Trim();
+            int indexOfFirstOpeningBracket = line.IndexOf('{');
+            int indexOfLastClosingBracket = line.LastIndexOf('}');
+            line = line.Substring(indexOfFirstOpeningBracket + 1, (indexOfLastClosingBracket - 1) - (indexOfFirstOpeningBracket + 1));
 
             return line;
         }
@@ -161,8 +166,7 @@ namespace Code_Summarizer
             {
                 int posOfBracket = line.IndexOf('{', matchIndex);
                 int posOfLastBracket = line.LastIndexOf('}');
-                line = line.Substring(posOfBracket - 1, (posOfLastBracket - 1) - posOfBracket);
-                Console.WriteLine("After formatting : " + line);
+                line = line.Substring(posOfBracket + 1, (posOfLastBracket - 1) - posOfBracket);
             }
 
             return line;
@@ -221,5 +225,24 @@ namespace Code_Summarizer
         {
             return _lastModified;
         }
+    }
+}
+class Pair
+{
+    private int Value1;
+    private int Value2;
+
+    public Pair(int val1, int val2)
+    {
+        Value1 = val1;
+        Value2 = val2;
+    }
+    public int getValue1()
+    {
+        return Value1;
+    }
+    public int getValue2()
+    {
+        return Value2;
     }
 }
