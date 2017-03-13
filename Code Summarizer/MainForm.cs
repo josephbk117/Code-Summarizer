@@ -42,9 +42,9 @@ namespace Code_Summarizer
                 IdentifierSpecifierColour = FormattedColor(identifierSpecifierPanel.BackColor)
             };
             hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName, SFI.GetFileAcsessDate());
-            string classDocOutputPath = outputFolderPathTextBox.Text + "/" + SFI.GetClassName() + " Doc.html";
-            hpw.OutputWebPage(classDocOutputPath);
-
+            Directory.CreateDirectory(outputFolderPathTextBox.Text + "/pages/");
+            string classDocOutputPath = outputFolderPathTextBox.Text + "/pages/" + SFI.GetClassName() + " Doc.html";
+            hpw.OutputWebPage(classDocOutputPath);            
             HtmlNavigationManager.AddClass(classDocOutputPath);
         }
 

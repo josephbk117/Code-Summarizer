@@ -37,6 +37,7 @@ namespace CowBang
       Console.WriteLine("Sub" + b);
       return 1;
     }
+    int inbetween;
     Bitmap ShowImage(bool isSet, int yDist)
     {
       Console.WriteLine("Sub" + b);

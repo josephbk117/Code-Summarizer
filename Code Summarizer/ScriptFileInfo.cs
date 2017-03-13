@@ -18,7 +18,7 @@ namespace Code_Summarizer
         private List<string> _todos;
 
         //To help out with removing function body
-        class Pair
+        partial class Pair
         {
             private int Value1;
             private int Value2;
