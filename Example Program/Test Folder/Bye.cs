@@ -1,36 +1,28 @@
 using System;
 using System.IO;
-using System.Drawing;
-using System.Collections;
+using UnityEngine;
 
-namespace CowBang
+namespace Babloo //Comments everywhere
 {
-  class Hello : MonoBehaviour
+  class Bye
   {
-    //TODO find and repair
-
-    bool k;
-    public int h = 66;
-    int c = 55;
-    static int a = 26;
-    int x = 35;
-    const float zam = 6.5f;
-
-    protected void testFunction1()
+    //TODO todo inside bye clas
+    int age;
+    bool isAlive;
+    public void testFunctionInBye()
     {
       Console.WriteLine("Helllo");
       if(true)
         return;
 
     }
-    //just a normal comm
     //TODO vales are stored correctly
     public int testFunction2()
     {
       Console.WriteLine("Add");
       return 4;
     }
-    private float testFunction3(int b)
+    private float testFunction3InBye(int b)
     {
       int innerVal = 4;
       int nextVal = 7;
@@ -38,7 +30,7 @@ namespace CowBang
       return 1;
     }
     int inbetween;
-    Bitmap ShowImage(bool isSet, int yDist)
+    Cabo SimbaLogo(bool isSet, int yDist)
     {
       Console.WriteLine("Sub" + b);
       return new Bitmap(20,40);
