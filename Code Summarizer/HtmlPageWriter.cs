@@ -84,7 +84,23 @@ namespace Code_Summarizer
             string memberVariables = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string vars in memVariables)
             {
-                memberVariables += "<li>" + vars + "</li>";
+                string[] splitted = vars.Split(' ');
+                int size = splitted.Length;
+                splitted[size - 1] = splitted[size - 1].Insert(0, "<font color = " + IdentifierSpecifierColour + ">") + "</font>";
+                splitted[size - 2] = splitted[size - 2].Insert(0, "<font color = " + DataTypeSpecifierColour + ">") + "</font>";
+                string sVal = "";
+                foreach (string val in splitted)
+                {
+                    string newVal = val;
+                    if (val == "public" || val == "private" || val == "protected")
+                    {
+                        newVal = val.Insert(0, "<font color = " + AcessSpecifierColour + ">") + "</font>";
+                    }
+
+                    sVal += newVal + " ";
+                }
+
+                memberVariables += "<li>" + sVal + "</li>";
             }
             memberVariables += "</ol>";
             _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
