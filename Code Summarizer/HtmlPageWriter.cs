@@ -41,21 +41,83 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
             }
         }
-        public void SetContent(string namespaceValue, string className, string dClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName, string lastAcessTime)
+        public void SetContent(string namespaceValue, string className, string derivedClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName, string lastAcessTime)
+        {
+            SetUpNamespceAndClassName(namespaceValue, className, fileName);
+            SetUpDerievedClassName(derivedClassName);
+            SetUpLastAcessTime(lastAcessTime);
+            SetUpTodos(todos);
+            SetUpDependencies(dependecyList);
+            SetUpFunctions(functions);
+            SetUpMemberVariables(memVariables);
+
+        }
+
+        private void SetUpLastAcessTime(string lastAcessTime)
+        {
+            _htmlContent = _htmlContent.Replace(LAST_MODIFIED, lastAcessTime);
+        }
+
+        private void SetUpDerievedClassName(string derivedClassName)
+        {
+            _htmlContent = _htmlContent.Replace(DCLASSNAME, derivedClassName);
+        }
+
+        private void SetUpNamespceAndClassName(string namespaceValue, string className, string fileName)
         {
             _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName).Replace(NAMESPACE, namespaceValue);
-            _htmlContent = _htmlContent.Replace(DCLASSNAME, dClassName);
-            _htmlContent = _htmlContent.Replace(LAST_MODIFIED, lastAcessTime);
+        }
 
-            string classTodos = "<ul style = \"color: rgb(200, 220, 220)+'\">";
-            foreach (string todo in todos)
+        private void SetUpMemberVariables(List<string> memVariables)
+        {
+            string memberVariables = "<ol style = \"color: rgb(200, 220, 220)\">";
+            foreach (string vars in memVariables)
             {
-                classTodos += "<li>" + todo + "</li>";
+                string[] splitted = vars.Split(' ');
+                int size = splitted.Length;
+                splitted[size - 1] = splitted[size - 1].Insert(0, "<font color = " + IdentifierSpecifierColour + ">") + "</font>";
+                splitted[size - 2] = splitted[size - 2].Insert(0, "<font color = " + DataTypeSpecifierColour + ">") + "</font>";
+                string sVal = "";
+                bool hasAcessSpecifier = false;
+                for (int i = 0; i < splitted.Length; i++)
+                {
+                    //TODO : Possible problem sets first index as private if no acess specified
+                    //public static || static public problem fix
+                    string newVal = splitted[i];
+                    Console.WriteLine("Splitted val at index " + i + " = " + newVal);
+                    if (newVal == "public" || newVal == "private" || newVal == "protected")
+                    {
+                        hasAcessSpecifier = true;
+                        newVal = newVal.Insert(0, "<font color = " + AcessSpecifierColour + ">") + "</font>";
+                    }
+                    else if (i < splitted.Length - 2)
+                    {
+                        newVal = newVal.Insert(0, "<font color = " + IdentifierSpecifierColour + ">") + "</font>";
+                    }
+                    sVal += newVal + " ";
+                }
+                if (!hasAcessSpecifier)
+                    sVal = sVal.Insert(0, "<font color = " + AcessSpecifierColour + ">private </font>");
+
+                memberVariables += "<li>" + sVal + "</li>";
             }
-            classTodos += "</ul>";
+            memberVariables += "</ol>";
+            _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
+        }
+        private void SetUpDependencies(List<string> dependecyList)
+        {
+            string dependencies = "<ol style = \"color: rgb(200, 220, 220)\">";
+            foreach (string depend in dependecyList)
+            {
+                dependencies += "<li>" + depend + "</li>";
+            }
 
-            _htmlContent = _htmlContent.Replace(TODOS, classTodos);
+            dependencies += "</ol>";
+            _htmlContent = _htmlContent.Replace(DEPENDENCIES, dependencies);
+        }
 
+        private void SetUpFunctions(List<string> functions)
+        {
             string memberFunctions = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string func in functions)
             {
@@ -71,41 +133,20 @@ namespace Code_Summarizer
             }
             memberFunctions += "</ol>";
             _htmlContent = _htmlContent.Replace(FUNCTIONS, memberFunctions);
-
-            string dependencies = "<ol style = \"color: rgb(200, 220, 220)\">";
-            foreach (string depend in dependecyList)
-            {
-                dependencies += "<li>" + depend + "</li>";
-            }
-
-            dependencies += "</ol>";
-            _htmlContent = _htmlContent.Replace(DEPENDENCIES, dependencies);
-
-            string memberVariables = "<ol style = \"color: rgb(200, 220, 220)\">";
-            foreach (string vars in memVariables)
-            {
-                string[] splitted = vars.Split(' ');
-                int size = splitted.Length;
-                splitted[size - 1] = splitted[size - 1].Insert(0, "<font color = " + IdentifierSpecifierColour + ">") + "</font>";
-                splitted[size - 2] = splitted[size - 2].Insert(0, "<font color = " + DataTypeSpecifierColour + ">") + "</font>";
-                string sVal = "";
-                foreach (string val in splitted)
-                {
-                    string newVal = val;
-                    if (val == "public" || val == "private" || val == "protected")
-                    {
-                        newVal = val.Insert(0, "<font color = " + AcessSpecifierColour + ">") + "</font>";
-                    }
-
-                    sVal += newVal + " ";
-                }
-
-                memberVariables += "<li>" + sVal + "</li>";
-            }
-            memberVariables += "</ol>";
-            _htmlContent = _htmlContent.Replace(MEMVARS, memberVariables);
-
         }
+
+        private void SetUpTodos(List<string> todos)
+        {
+            string classTodos = "<ul style = \"color: rgb(200, 220, 220)+'\">";
+            foreach (string todo in todos)
+            {
+                classTodos += "<li>" + todo + "</li>";
+            }
+            classTodos += "</ul>";
+
+            _htmlContent = _htmlContent.Replace(TODOS, classTodos);
+        }
+
         public void OutputWebPage(string outputPath)
         {
             using (StreamWriter sw = new StreamWriter(outputPath))
