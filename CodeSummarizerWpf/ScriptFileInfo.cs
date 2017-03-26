@@ -72,6 +72,8 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
                 return;
             }
+            //Remove regions to allow correct extraction
+            line = RemoveRegion(line);
             //Extract todos
             line = ExtractTodos(line);
             //Extract Dependencies
@@ -87,6 +89,17 @@ namespace Code_Summarizer
             //Extact variables
             ExtractMemberVariables(line);
 
+        }
+
+        private static string RemoveRegion(string line)
+        {
+            Regex rgx = new Regex(@"(#region\s+\w+)|(#endregion)");
+            foreach (Match match in rgx.Matches(line))
+            {
+                line = line.Replace(match.Value, "");
+            }
+
+            return line;
         }
 
         private void ExtractMemberVariables(string line)
