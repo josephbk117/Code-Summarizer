@@ -90,10 +90,24 @@ namespace Code_Summarizer
         }
 
         private void ExtractMemberVariables(string line)
-        {
-            string variablePattern = @"(\w+<\w+>\s+\w+)|(\w+\s+\w+<\w+>\s+\w+)|(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
+        {           
+            bool hasSeenEquals = false;
+            string newString = "";
+            for(int i=0;i<line.Length;i++)
+            {
+                if (line[i] == '=')
+                {
+                    hasSeenEquals = true;
+                }
+                else if (line[i] == ';')
+                    hasSeenEquals = false;
+                if (!hasSeenEquals)
+                    newString += line[i];
+            }
+           
+            string variablePattern = @"(\w+\s+\w+\s+\w+\s+\w+)|(\w+\s+\w+\s+\w+\[\]\s+\w+)|(\w+\s+\w+\[\]\s+\w+)|(\w+<\w+>\s+\w+)|(\w+\s+\w+<\w+>\s+\w+)|(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
             Regex variableRegex = new Regex(variablePattern);
-            foreach (Match match in variableRegex.Matches(line))
+            foreach (Match match in variableRegex.Matches(newString))
             {
                 _memberVariables.Add(match.Value);
             }

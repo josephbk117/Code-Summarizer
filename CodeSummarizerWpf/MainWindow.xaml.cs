@@ -148,6 +148,11 @@ namespace CodeSummarizerWpf
             browser.Source = new Uri(templates[comboBox.SelectedIndex]);
         }
 
+        private void TextBox_HintTextRemove_OnClick(object sender, MouseButtonEventArgs e)
+        {
+            ((System.Windows.Controls.TextBox)(sender)).Text = "";
+        }
+
         private string FormattedColor(Color color)
         {
             return "rgb(" + color.R + "," + color.G + "," + color.B + ")";
