@@ -33,6 +33,7 @@ namespace CodeSummarizerWpf
         {
             InitializeComponent();
             InitTemplates();
+            browser.Source = new Uri(templates[0]);
         }
         #region Open folder Label Cosmetics
 
@@ -141,7 +142,12 @@ namespace CodeSummarizerWpf
             }
             HtmlNavigationManager.WriteNavigationPage(outputFolderTextBox.Text + "/index.html");
         }
-        
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            browser.Source = new Uri(templates[comboBox.SelectedIndex]);
+        }
+
         private string FormattedColor(Color color)
         {
             return "rgb(" + color.R + "," + color.G + "," + color.B + ")";
@@ -154,7 +160,7 @@ namespace CodeSummarizerWpf
             {
                 if (sender.Equals(acessSpecifierPanel))
                 {
-                    acessSpecifierColour = cd.Color;                    
+                    acessSpecifierColour = cd.Color;
                 }
                 else if (sender.Equals(dataTypeSpecifierPanel))
                 {
@@ -162,7 +168,7 @@ namespace CodeSummarizerWpf
                 }
                 else
                     identifierColour = cd.Color;
-                ((Rectangle)(sender)).Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255,cd.Color.R,cd.Color.G,cd.Color.B));
+                ((Rectangle)(sender)).Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, cd.Color.R, cd.Color.G, cd.Color.B));
             }
         }
     }
