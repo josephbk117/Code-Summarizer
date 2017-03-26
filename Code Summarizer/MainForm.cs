@@ -19,14 +19,22 @@ namespace Code_Summarizer
             InitializeComponent();
             InitTemplates();
         }
+        private void InitTemplates()
+        {
+            templates = Directory.GetFiles(Environment.CurrentDirectory + "/Res/Templates/", "*.html");
+            for (int i = 0; i < templates.Length; i++)
+            {
+                string templateName = templates[i].Substring(templates[i].LastIndexOf("/") + 1).Replace(".html", "");
+                comboBox.Items.Add(templateName);
+            }
+        }
 
         private void OpenFolderButton_Click(object sender, EventArgs e)
         {
             if (fbd.ShowDialog() == DialogResult.OK)
             {
                 openFolderPathTextBox.Text = fbd.SelectedPath;
-                csFiles = Directory.GetFiles(fbd.SelectedPath, "*.cs").ToList<string>();
-                openFolderPathTextBox.Text = fbd.SelectedPath;
+                csFiles = Directory.GetFiles(fbd.SelectedPath, "*.cs").ToList<string>();                
             }
         }
 
@@ -47,17 +55,6 @@ namespace Code_Summarizer
             hpw.OutputWebPage(classDocOutputPath);            
             HtmlNavigationManager.AddClass(classDocOutputPath);
         }
-
-        private void InitTemplates()
-        {
-            templates = Directory.GetFiles(Environment.CurrentDirectory + "/Res/Templates/", "*.html");
-            for (int i = 0; i < templates.Length; i++)
-            {
-                string templateName = templates[i].Substring(templates[i].LastIndexOf("/") + 1).Replace(".html", "");
-                comboBox.Items.Add(templateName);
-            }
-        }
-
         private void OutputFolderButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
