@@ -34,15 +34,15 @@
                 <ColumnDefinition MinWidth="250"/>
                 <ColumnDefinition MinWidth="250"/>
             </Grid.ColumnDefinitions>
-            <awe:WebControl x:Name="browser" Margin="10,62,10,10" ViewType="Window" Grid.Column="0">
+            <awe:WebControl x:Name="browser" Margin="10,62,15,10" ViewType="Window" Grid.Column="0">
                 <awe:WebControl.Effect>
                     <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" Opacity="0.6"/>
                 </awe:WebControl.Effect>
             </awe:WebControl>
-            <Rectangle Fill="#FF006EDC" Height="51" VerticalAlignment="Top" Margin="10,10,10,0"  Grid.Column="0"/>
-            <Label Content="Template Preview" Margin="10,15,10,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White" Grid.Column="0" FontWeight="Bold"/>
+            <Rectangle Fill="#FF006EDC" Height="51" VerticalAlignment="Top" Margin="10,10,15,0"  Grid.Column="0"/>
+            <Label Content="Template Preview" Margin="10,15,15,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White" Grid.Column="0" FontWeight="Bold"/>
             <Rectangle Fill="White" Height="2" Margin="15,55,15,0" Stroke="Black" VerticalAlignment="Top" StrokeThickness="0" HorizontalAlignment="Center" Width="200" Grid.Column="0"/>
-            <GridSplitter HorizontalAlignment="Right" Grid.Column="0" Width="3" Background="#FF00BEDC"/>
+            <GridSplitter HorizontalAlignment="Right" Grid.Column="0" Width="5" Background="#FFFFFF"/>
             <ListView x:Name="fileList" Grid.Column="1" Margin="10,62,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="120" Background="White" Foreground="#FF006EBE" FontSize="14"/>
             <Rectangle Fill="#FF006EDC" Height="51" VerticalAlignment="Top" Margin="10,11,11,0"  Grid.Column="1"/>
             <Label Content="Included Files" Margin="11,15,10,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White" Grid.Column="1" FontWeight="Bold"/>
