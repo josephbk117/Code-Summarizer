@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CodeSummarizerWpf"
         xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="CodeSummarizerWpf.MainWindow"
         mc:Ignorable="d"
-        Title="Code Summarizer" Height="590.45" Width="525" MinWidth="333" MinHeight="370">
+        Title="Code Summarizer" Height="641.45" Width="525" MinWidth="333" MinHeight="370">
     <Grid Margin="0,0,0,0" Background="White">
 
         <TextBox x:Name="openFolderTextBox" Height="33" Margin="10,10,136,0" TextWrapping="NoWrap" Text="folder path..." BorderThickness="4" VerticalAlignment="Top" VerticalContentAlignment="Center" BorderBrush="#FF065ABE" UndoLimit="0" HorizontalContentAlignment="Center" PreviewMouseLeftButtonDown="TextBox_HintTextRemove_OnClick" SelectionBrush="{x:Null}" Foreground="White" Background="#FF006EDE"/>
@@ -28,16 +28,36 @@
                 <Rectangle x:Name="identifierSpecifierPanel" HorizontalAlignment="Right" Width="25" Height="25" Fill="White" Margin="0,5,5,5" MouseLeftButtonUp="ColourSpecify_OnClick" />
             </DockPanel>
         </DockPanel>
-        <Label x:Name="generateCodeSummaryBtn" Content= "Generate Code Summary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="4"  Foreground="White" Background="#FF005ABE" MouseLeftButtonUp="GenerateCodeSummaryBtn_OnLeftMouseBtnUp" MouseEnter="GenerateCodeSummaryBtn_Label_OnMouseEnter" MouseLeave="GenerateCodeSummaryBtn_Label_OnMouseLeave" MouseLeftButtonDown="GenerateCodeSummaryBtn_OnLeftMouseDown" BorderBrush="#FF005ABE" FontFamily="Arial" Height="45" VerticalAlignment="Top" Margin="10,279,10,0" FontSize="24"/>
-        <Rectangle Fill="White" HorizontalAlignment="Left" Height="100" Margin="200,362,0,0" VerticalAlignment="Top" Width="100"/>
-        <Rectangle Fill="#FF005AC0" Margin="10,329,10,0" />
-        <awe:WebControl x:Name="browser" Margin="30,380,30,0">
-            <awe:WebControl.Effect>
-                <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" Opacity="0.6"/>
-            </awe:WebControl.Effect>
-        </awe:WebControl>
-        <Rectangle Fill="#FF006EDC" Height="51" VerticalAlignment="Top" Margin="10,329,10,0" />
-        <Label Content="Template Preview" Margin="10,329,10,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White"/>
-        <Rectangle Fill="White" Height="2" Margin="170,370,170,0" Stroke="Black" VerticalAlignment="Top" StrokeThickness="0" HorizontalAlignment="Center" Width="200"/>
+        <Label x:Name="generateCodeSummaryBtn" Content= "Generate Code Summary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="4"  Foreground="White" Background="#FF005ABE" MouseLeftButtonUp="GenerateCodeSummaryBtn_OnLeftMouseBtnUp" MouseEnter="GenerateCodeSummaryBtn_Label_OnMouseEnter" MouseLeave="GenerateCodeSummaryBtn_Label_OnMouseLeave" MouseLeftButtonDown="GenerateCodeSummaryBtn_OnLeftMouseDown" BorderBrush="#FF005ABE" FontFamily="Arial" Margin="10,0,10,10" FontSize="24" Height="45" VerticalAlignment="Bottom"/>
+        <Grid Margin="10,279,10,60" Background="#FF005AC2" MinWidth="100" MinHeight="100" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <awe:WebControl x:Name="browser" Margin="10,62,10,10" ViewType="Window" Grid.Column="0">
+                <awe:WebControl.Effect>
+                    <DropShadowEffect BlurRadius="20" Direction="0" ShadowDepth="0" Opacity="0.6"/>
+                </awe:WebControl.Effect>
+            </awe:WebControl>
+            <Rectangle Fill="#FF006EDC" Height="51" VerticalAlignment="Top" Margin="10,10,10,0"  Grid.Column="0"/>
+            <Label Content="Template Preview" Margin="10,15,10,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White" Grid.Column="0"/>
+            <Rectangle Fill="White" Height="2" Margin="15,55,15,0" Stroke="Black" VerticalAlignment="Top" StrokeThickness="0" HorizontalAlignment="Center" Width="200" Grid.Column="0"/>
+
+
+
+            <GridSplitter HorizontalAlignment="Right" Grid.Column="0" Width="3" Background="#FF00BEDC"/>
+            <ListView Grid.Column="1" Margin="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="120">
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <ListBoxItem Content="LOLZ" Margin="10,10,10,0" Padding="0,0,0,0" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                
+                
+            </ListView>
+        </Grid>
     </Grid>
 </Window>
