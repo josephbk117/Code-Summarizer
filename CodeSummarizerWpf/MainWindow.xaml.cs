@@ -103,10 +103,20 @@ namespace CodeSummarizerWpf
 
         private void OpenFolder_Label_OnLeftMouseBtnUp(object sender, MouseButtonEventArgs e)
         {
+            if(fileList.Items.Count > 0)
+            {
+                fileList.Items.Clear();
+            }
+
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 openFolderTextBox.Text = fbd.SelectedPath;
                 csFiles = Directory.GetFiles(fbd.SelectedPath, "*.cs").ToList<string>();
+
+                foreach( string file in csFiles)
+                {
+                    fileList.Items.Add(file);
+                }
             }
         }
         private void OutputFolder_Label_OnLeftMouseBtnUp(object sender, MouseButtonEventArgs e)
