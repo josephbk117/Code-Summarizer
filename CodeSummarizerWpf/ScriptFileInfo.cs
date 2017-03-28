@@ -73,7 +73,7 @@ namespace Code_Summarizer
                 return;
             }
             //Remove regions to allow correct extraction
-            line = RemoveRegion(line);
+            line = RemoveRegionsAndHashStatements(line);
             //Extract todos
             line = ExtractTodos(line);
             //Extract Dependencies
@@ -91,9 +91,9 @@ namespace Code_Summarizer
 
         }
 
-        private static string RemoveRegion(string line)
+        private static string RemoveRegionsAndHashStatements(string line)
         {
-            Regex rgx = new Regex(@"(#region\s+\w+)|(#endregion)");
+            Regex rgx = new Regex(@"#.*");
             foreach (Match match in rgx.Matches(line))
             {
                 line = line.Replace(match.Value, "");
@@ -103,10 +103,10 @@ namespace Code_Summarizer
         }
 
         private void ExtractMemberVariables(string line)
-        {           
+        {
             bool hasSeenEquals = false;
             string newString = "";
-            for(int i=0;i<line.Length;i++)
+            for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] == '=')
                 {
@@ -117,12 +117,13 @@ namespace Code_Summarizer
                 if (!hasSeenEquals)
                     newString += line[i];
             }
-           
+
             string variablePattern = @"(\w+\s+\w+\s+\w+\s+\w+)|(\w+\s+\w+\s+\w+\[\]\s+\w+)|(\w+\s+\w+\[\]\s+\w+)|(\w+<\w+>\s+\w+)|(\w+\s+\w+<\w+>\s+\w+)|(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
             Regex variableRegex = new Regex(variablePattern);
             foreach (Match match in variableRegex.Matches(newString))
             {
-                _memberVariables.Add(match.Value);
+                if (!_memberVariables.Contains(match.Value))
+                    _memberVariables.Add(match.Value);
             }
         }
 
@@ -133,7 +134,7 @@ namespace Code_Summarizer
             foreach (Match match in functionRegex.Matches(line))
             {
                 //TODO potential error zone can not support more than one space b/w words
-
+                //TODO : to prevent  non functions to be added check if the coming chars after the ( is the {
                 string func = match.Value;
 
                 string temp = func.Substring(0, match.Value.IndexOf('(') - 1);
@@ -257,6 +258,23 @@ namespace Code_Summarizer
                 line = line.Replace(match.Value, "");
             }
             return line;
+        }
+
+        private string RemoveMultipleSpaces(string text)
+        {
+            string newText = "";
+            int spaceCount = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == ' ')
+                    spaceCount++;
+                else
+                    spaceCount = 0;
+                if (spaceCount < 2)
+                    newText += text[i];
+            }
+
+            return newText;
         }
 
         public List<string> GetDependencies()

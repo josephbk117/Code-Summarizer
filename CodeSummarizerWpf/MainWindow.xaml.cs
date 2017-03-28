@@ -33,7 +33,7 @@ namespace CodeSummarizerWpf
         {
             InitializeComponent();
             InitTemplates();
-            browser.Source = new Uri(templates[0]);
+            browser.Source = new Uri(templates[0]);            
         }
         #region Open folder Label Cosmetics
 
@@ -161,6 +161,11 @@ namespace CodeSummarizerWpf
         private void TextBox_HintTextRemove_OnClick(object sender, MouseButtonEventArgs e)
         {
             ((System.Windows.Controls.TextBox)(sender)).Text = "";
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
         }
 
         private string FormattedColor(Color color)

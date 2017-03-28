@@ -96,7 +96,7 @@ namespace Code_Summarizer
                     //TODO : Possible problem sets first index as private if no acess specified
                     //public static || static public problem fix
                     string newVal = splitted[i];
-                    Console.WriteLine("Splitted val at index " + i + " = " + newVal);
+                    
                     if (newVal == "public" || newVal == "private" || newVal == "protected")
                     {
                         hasAcessSpecifier = true;
