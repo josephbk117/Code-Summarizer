@@ -41,18 +41,7 @@ namespace Code_Summarizer
                 Console.WriteLine(e.Message);
             }
         }
-        /// <summary>
-        /// Sets all the content of the class to the html file
-        /// </summary>
-        /// <param name="namespaceValue">Namespace of the class</param>
-        /// <param name="className">Name of the class</param>
-        /// <param name="derivedClassName">Name of class that current class derieves from</param>
-        /// <param name="functions">List of memeber functions</param>
-        /// <param name="memVariables">List of memeber variables</param>
-        /// <param name="dependecyList">List if include statements</param>
-        /// <param name="todos">Todo statements in the class</param>
-        /// <param name="fileName">Output file name</param>
-        /// <param name="lastAcessTime">Last time .cs file was accessed</param>
+
         public void SetContent(string namespaceValue, string className, string derivedClassName, List<string> functions, List<string> memVariables, List<string> dependecyList, List<string> todos, string fileName, string lastAcessTime)
         {
             SetUpNamespceAndClassName(namespaceValue, className, fileName);
@@ -79,7 +68,7 @@ namespace Code_Summarizer
         {
             _htmlContent = _htmlContent.Replace(CLASSNAME, className).Replace(FILENAME, fileName).Replace(NAMESPACE, namespaceValue);
         }
-        
+
         private void SetUpMemberVariables(List<string> memVariables)
         {
             string memberVariables = "<ol style = \"color: rgb(200, 220, 220)\">";
@@ -88,6 +77,7 @@ namespace Code_Summarizer
                 string[] splitted = vars.Split(' ');
                 int size = splitted.Length;
                 splitted[size - 1] = splitted[size - 1].Insert(0, "<font color = " + IdentifierSpecifierColour + ">") + "</font>";
+                SpecialHtmlCharacterConvert(ref splitted[size - 2]);
                 splitted[size - 2] = splitted[size - 2].Insert(0, "<font color = " + DataTypeSpecifierColour + ">") + "</font>";
                 string sVal = "";
                 bool hasAcessSpecifier = false;
@@ -96,7 +86,7 @@ namespace Code_Summarizer
                     //TODO : Possible problem sets first index as private if no acess specified
                     //public static || static public problem fix
                     string newVal = splitted[i];
-                    
+
                     if (newVal == "public" || newVal == "private" || newVal == "protected")
                     {
                         hasAcessSpecifier = true;
@@ -127,24 +117,33 @@ namespace Code_Summarizer
             dependencies += "</ol>";
             _htmlContent = _htmlContent.Replace(DEPENDENCIES, dependencies);
         }
-
+        //TODO:FUnctions will not work with more than 3 spaces in between &  it will go to variables
         private void SetUpFunctions(List<string> functions)
         {
+
             string memberFunctions = "<ol style = \"color: rgb(200, 220, 220)\">";
             foreach (string func in functions)
             {
                 string[] components = func.Split(' ');
+                SpecialHtmlCharacterConvert(ref components[1]);
                 components[0] = components[0].Insert(0, "<font color = " + AcessSpecifierColour + ">");
                 components[0] += " </font>";
                 components[1] = components[1].Insert(0, "<font color = " + DataTypeSpecifierColour + ">");
                 components[1] += " </font>";
                 components[2] = "<font color = " + IdentifierSpecifierColour + ">" + func.Substring(func.IndexOf(components[2]));
                 components[2] += " </font>";
+
                 string newFunc = components[0] + components[1] + components[2];
+
                 memberFunctions += "<li>" + newFunc + "</li>";
             }
             memberFunctions += "</ol>";
             _htmlContent = _htmlContent.Replace(FUNCTIONS, memberFunctions);
+        }
+
+        private void SpecialHtmlCharacterConvert(ref string text)
+        {
+            text = text.Replace("<", "&lt;").Replace(">", "&gt;").Replace("[", "&#91;").Replace("]", "&#93;");
         }
 
         private void SetUpTodos(List<string> todos)

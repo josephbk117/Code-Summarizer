@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CodeSummarizerWpf"
         xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="CodeSummarizerWpf.MainWindow"
         mc:Ignorable="d"
-        Title="Code Summarizer" Height="640" Width="640" MinWidth="540" MinHeight="490" Icon="Logo/appLogLow.png" Closing="Window_Closing">
+        Title="Code Summarizer" Height="708" Width="640" MinWidth="540" MinHeight="490" Icon="Logo/appLogLow.png" Closing="Window_Closing">
     <Grid Margin="0,0,0,0" Background="White">
 
         <TextBox x:Name="openFolderTextBox" Height="33" Margin="10,10,136,0" TextWrapping="NoWrap" Text="folder path..." BorderThickness="4" VerticalAlignment="Top" VerticalContentAlignment="Center" BorderBrush="#FF065ABE" UndoLimit="0" HorizontalContentAlignment="Center" PreviewMouseLeftButtonDown="TextBox_HintTextRemove_OnClick" SelectionBrush="{x:Null}" Foreground="White" Background="#FF006EDE"/>
@@ -28,8 +28,8 @@
                 <Rectangle x:Name="identifierSpecifierPanel" HorizontalAlignment="Right" Width="25" Height="25" Fill="White" Margin="0,5,5,5" MouseLeftButtonUp="ColourSpecify_OnClick" />
             </DockPanel>
         </DockPanel>
-        <Label x:Name="generateCodeSummaryBtn" Content= "Generate Code Summary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="4"  Foreground="White" Background="#FF005ABE" MouseLeftButtonUp="GenerateCodeSummaryBtn_OnLeftMouseBtnUp" MouseEnter="GenerateCodeSummaryBtn_Label_OnMouseEnter" MouseLeave="GenerateCodeSummaryBtn_Label_OnMouseLeave" MouseLeftButtonDown="GenerateCodeSummaryBtn_OnLeftMouseDown" BorderBrush="#FF005ABE" FontFamily="Arial" Margin="10,0,10,10" FontSize="24" Height="45" VerticalAlignment="Bottom"/>
-        <Grid Margin="10,279,10,60" Background="#FF005AC2" MinWidth="100" MinHeight="100" Grid.ColumnSpan="2">
+        <Label x:Name="generateCodeSummaryBtn" Content= "Generate Code Summary" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="4"  Foreground="White" Background="#FF005ABE" MouseLeftButtonUp="GenerateCodeSummaryBtn_OnLeftMouseBtnUp" MouseEnter="GenerateCodeSummaryBtn_Label_OnMouseEnter" MouseLeave="GenerateCodeSummaryBtn_Label_OnMouseLeave" MouseLeftButtonDown="GenerateCodeSummaryBtn_OnLeftMouseDown" BorderBrush="#FF005ABE" FontFamily="Arial" Margin="10,0,10,29" FontSize="24" Height="45" VerticalAlignment="Bottom"/>
+        <Grid Margin="10,279,10,79" Background="#FF005AC2" MinWidth="100" MinHeight="100">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="250"/>
                 <ColumnDefinition MinWidth="250"/>
@@ -43,10 +43,18 @@
             <Label Content="Template Preview" Margin="10,15,15,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White" Grid.Column="0" FontWeight="Bold"/>
             <Rectangle Fill="White" Height="2" Margin="15,55,15,0" Stroke="Black" VerticalAlignment="Top" StrokeThickness="0" HorizontalAlignment="Center" Width="200" Grid.Column="0"/>
             <GridSplitter HorizontalAlignment="Right" Grid.Column="0" Width="5" Background="#FFFFFF"/>
-            <ListView x:Name="fileList" Grid.Column="1" Margin="10,62,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="120" Background="White" Foreground="#FF006EBE" FontSize="14"/>
+            <ListView x:Name="fileList" Grid.Column="1" Margin="10,62,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MinWidth="120" Background="White" Foreground="#FF006EBE" FontSize="14" MouseDoubleClick="fileList_MouseDoubleClick"/>
             <Rectangle Fill="#FF006EDC" Height="51" VerticalAlignment="Top" Margin="10,11,11,0"  Grid.Column="1"/>
             <Label Content="Included Files" Margin="11,15,10,0" VerticalAlignment="Top" Height="46" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="22" Foreground="White" Grid.Column="1" FontWeight="Bold"/>
             <Rectangle Fill="White" Height="2" Margin="15,55,15,0" Stroke="Black" VerticalAlignment="Top" StrokeThickness="0" HorizontalAlignment="Center" Width="200" Grid.Column="1"/>
         </Grid>
+        <StatusBar Margin="0,0" Height="24" VerticalAlignment="Bottom" Background="#FFA2A2A2">
+            <StatusBarItem>
+                <Label x:Name="statusBarOutputPath" Content="output path : " VerticalContentAlignment="Top" FontSize="12" VerticalAlignment="Top" Margin="15,0,0,0" Padding="0,0,0,0" Foreground="#FF494949"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <ProgressBar x:Name="progressBar" Height="15" Width="350" Foreground="#FF0094FF" BorderBrush="#FFDEDEDE" Margin="0,0,0,0" Padding="0,0,0,0"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

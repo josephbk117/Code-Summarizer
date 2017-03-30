@@ -76,6 +76,8 @@ namespace Code_Summarizer
             line = RemoveRegionsAndHashStatements(line);
             //Extract todos
             line = ExtractTodos(line);
+            //Remove Comments
+            line = RemoveComments(line);
             //Extract Dependencies
             ExtractUsingStatements(line); //order is important
             //Extract namespace
@@ -88,7 +90,6 @@ namespace Code_Summarizer
             line = ExtractMemberFunctions(line);
             //Extact variables
             ExtractMemberVariables(line);
-
         }
 
         private static string RemoveRegionsAndHashStatements(string line)
@@ -98,10 +99,8 @@ namespace Code_Summarizer
             {
                 line = line.Replace(match.Value, "");
             }
-
             return line;
         }
-
         private void ExtractMemberVariables(string line)
         {
             bool hasSeenEquals = false;
@@ -118,7 +117,7 @@ namespace Code_Summarizer
                     newString += line[i];
             }
 
-            string variablePattern = @"(\w+\s+\w+\s+\w+\s+\w+)|(\w+\s+\w+\s+\w+\[\]\s+\w+)|(\w+\s+\w+\[\]\s+\w+)|(\w+<\w+>\s+\w+)|(\w+\s+\w+<\w+>\s+\w+)|(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
+            string variablePattern = @"(\w+\s+\w+\s+\w+\s+\w+)|(\w+\s+\w+\s+\w+\[\]\s+\w+)|(\w+\s+\w+\[\]\s+\w+)|(\w+\<\w+\>\s+\w+)|(\w+\s+\w+\<\w+\>\s+\w+)|(\w+\s+\w+\s+\w+)|(\w+\s+\w+)";
             Regex variableRegex = new Regex(variablePattern);
             foreach (Match match in variableRegex.Matches(newString))
             {
@@ -129,7 +128,7 @@ namespace Code_Summarizer
 
         private string ExtractMemberFunctions(string line)
         {
-            string functionPattern = @"(\w+\s+\w+\s*?\(.*\))|(\w+\s+\w+\s+\w+\s*?\(.*\))";
+            string functionPattern = @"(\w+\s+\w+\[.*\]\s*\w+\s*?\(.*\))|(\w+\[.*\]\s*\w+\s*?\(.*\))|(\w+\s+\w+\s*\<\w+\>\s*\w+\s*?\(.*\))|(\w+\s*\<\w+\>\s*\w+\s*?\(.*\))|(\w+\s+\w+\s+\w+\s*?\(.*\))";
             Regex functionRegex = new Regex(functionPattern);
             foreach (Match match in functionRegex.Matches(line))
             {
@@ -174,7 +173,6 @@ namespace Code_Summarizer
                 Console.WriteLine(line.Substring(pair.GetValue1(), pair.GetValue2() - pair.GetValue1()));
                 temp = temp.Replace(line.Substring(pair.GetValue1(), (pair.GetValue2() + 1) - pair.GetValue1()), "");
             }
-
             line = temp;
             return line;
         }
@@ -184,10 +182,7 @@ namespace Code_Summarizer
             string classAndDerievedClassPattern = @"(class\s+\w+\s+:\s+\w+)|(class\s+\w+)";
             Regex classAndDerievedClassRegex = new Regex(classAndDerievedClassPattern);
             string completeValue = "";
-            /*foreach (Match match in classAndDerievedClassRgx.Matches(line))
-            {
-                completeValue = match.Value;
-            }*/
+
             completeValue = classAndDerievedClassRegex.Match(line).Value;
             line = line.Replace(completeValue, "");
             //Support both derieved no derivation
@@ -215,7 +210,6 @@ namespace Code_Summarizer
             Regex usingRegex = new Regex(usingPattern);
             foreach (Match match in usingRegex.Matches(line))
             {
-                Console.WriteLine("Regex value = " + match.Value + " at index " + match.Index);
                 _dependencies.Add(match.Value.Substring(6).Replace(";", ""));
             }
         }
@@ -251,11 +245,32 @@ namespace Code_Summarizer
                 _todos.Add(match.Value.Substring(7));
                 line = line.Replace(match.Value, "");
             }
+            return line;
+        }
 
+        private string RemoveComments(string line)
+        {
             Regex comments = new Regex(@"//.*\r\n");
             foreach (Match match in comments.Matches(line))
             {
                 line = line.Replace(match.Value, "");
+            }
+            //Remove multi line comments
+            Stack<int> multilineCmtPos = new Stack<int>();
+            for (int i = 0; i < line.Length - 1; i++)
+            {
+                if (line[i] == '/' && line[i + 1] == '*')
+                {
+                    multilineCmtPos.Push(i);
+                }
+                if (multilineCmtPos.Count >= 1)
+                {
+                    if (line[i] == '*' && line[i + 1] == '/')
+                    {
+                        int index = multilineCmtPos.Pop();
+                        line = line.Remove(index, i - index);
+                    }
+                }
             }
             return line;
         }
@@ -273,7 +288,6 @@ namespace Code_Summarizer
                 if (spaceCount < 2)
                     newText += text[i];
             }
-
             return newText;
         }
 
