@@ -1,0 +1,5 @@
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\bin\Debug\CodeSummarizer.dll
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\bin\Debug\CodeSummarizer.pdb
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\obj\Debug\CodeSummarizer.csprojResolveAssemblyReference.cache
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\obj\Debug\CodeSummarizer.dll
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\obj\Debug\CodeSummarizer.pdb
