@@ -1,21 +1,16 @@
-﻿using Code_Summarizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeSummarizer;
+using System.Drawing;
 
 namespace CodeSummarizerWpf
 {
@@ -50,7 +45,7 @@ namespace CodeSummarizerWpf
         }
 
         System.Drawing.Color acessSpecifierColour, dataTypeColour, identifierColour;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -58,11 +53,11 @@ namespace CodeSummarizerWpf
             {
                 WorkerReportsProgress = true
             };
+            
             bgw.DoWork += BackgroundWorker_DoWork;
             bgw.ProgressChanged += BackgroundWorker_ProgressChanged;
             bgw.RunWorkerCompleted += BackgroundWorker_OnWorkCompleted;
-            InitTemplates();
-            browser.Source = new Uri(templates[0]);
+            InitTemplates();           
         }
 
         private void BackgroundWorker_OnWorkCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -80,30 +75,12 @@ namespace CodeSummarizerWpf
                 return;
             progressBar.Value = e.ProgressPercentage;
         }
-
+        //TODO : Make summarizer send completion data , pass Bg worker as argument
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             ThreadObjectHelper toh = (ThreadObjectHelper)e.Argument;
 
-            for (int i = 0; i < csFiles.Count; i++)
-            {
-                ScriptFileInfo SFI = new ScriptFileInfo(toh._files[i]);
-                SFI.Analyze();
-
-                HtmlPageWriter hpw = new HtmlPageWriter(toh._template)
-                {
-                    AcessSpecifierColour = "rgb(" + toh._acessSpecifierColour.R + "," + toh._acessSpecifierColour.G + "," + toh._acessSpecifierColour.B + ")",
-                    DataTypeSpecifierColour = "rgb(" + toh._dataTypeColour.R + "," + toh._dataTypeColour.G + "," + toh._dataTypeColour.B + ")",
-                    IdentifierSpecifierColour = "rgb(" + toh._identifierColour.R + "," + toh._identifierColour.G + "," + toh._identifierColour.B + ")"
-                };
-                hpw.SetContent(SFI.GetNamespace(), SFI.GetClassName(), SFI.GetDerievedClass(), SFI.GetMemberFunctions(), SFI.GetMemberVariables(), SFI.GetDependencies(), SFI.GetTodos(), SFI._pathName, SFI.GetFileAcsessDate());
-                Directory.CreateDirectory(toh._outputFolderPath + "/pages/");
-                string classDocOutputPath = toh._outputFolderPath + "/pages/" + SFI.GetClassName() + " Doc.html";
-                hpw.OutputWebPage(classDocOutputPath);
-                HtmlNavigationManager.AddClass(classDocOutputPath);
-                bgw.ReportProgress((int)(((float)i / csFiles.Count) * 100f));
-            }
-            HtmlNavigationManager.WriteNavigationPage(toh._outputFolderPath + "/index.html");
+            Summarizer.Summarize(toh._files.ToList(),toh._outputFolderPath,bgw,ColorTranslator.ToHtml(toh._identifierColour), ColorTranslator.ToHtml(toh._dataTypeColour));           
 
         }
         #region Open folder Label Cosmetics
@@ -163,16 +140,18 @@ namespace CodeSummarizerWpf
 
         }
         #endregion
-        /// <summary>
-        /// Initialize the templates
-        /// </summary>
+        
         private void InitTemplates()
         {
-            templates = Directory.GetFiles(Environment.CurrentDirectory + "/Res/Templates/", "*.html");
+            templates = Directory.GetFiles(Environment.CurrentDirectory + "/Res/Templates/Class Templates/", "*.html");
             for (int i = 0; i < templates.Length; i++)
             {
                 string templateName = templates[i].Substring(templates[i].LastIndexOf("/") + 1).Replace(".html", "");
-                comboBox.Items.Add(templateName);
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = templateName;
+                item.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 90, 190));
+                item.Padding = new Thickness(0, 5, 0, 5);
+                comboBox.Items.Add(item);
             }
         }
 
@@ -206,8 +185,13 @@ namespace CodeSummarizerWpf
 
         private void GenerateCodeSummaryBtn_OnLeftMouseBtnUp(object sender, MouseButtonEventArgs e)
         {
-            bgw.RunWorkerAsync(new ThreadObjectHelper(templates[comboBox.SelectedIndex], csFiles.ToArray(),
-                outputFolderTextBox.Text, acessSpecifierColour, dataTypeColour, identifierColour));
+            if (csFiles.Count > 0)
+            {
+                bgw.RunWorkerAsync(new ThreadObjectHelper(templates[comboBox.SelectedIndex], csFiles.ToArray(),
+                    outputFolderTextBox.Text, acessSpecifierColour, dataTypeColour, identifierColour));
+            }
+            else
+                System.Windows.MessageBox.Show("No Files are there");
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -244,7 +228,7 @@ namespace CodeSummarizerWpf
                 }
                 else
                     identifierColour = cd.Color;
-                ((Rectangle)(sender)).Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, cd.Color.R, cd.Color.G, cd.Color.B));
+                ((System.Windows.Shapes.Rectangle)(sender)).Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, cd.Color.R, cd.Color.G, cd.Color.B));
             }
         }
     }
