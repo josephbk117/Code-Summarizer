@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+//TODO : 
+//Segement the code according to scope
+//Global > Namespace > Class = Interfaces >!= Enums > Variables = Functions 
 
 namespace CodeSummarizer
 {
@@ -19,8 +22,7 @@ namespace CodeSummarizer
         string fileName = "";
 
         public CodeFileData(string filePath)
-        {
-            //Logger.ResetLog();
+        {            
             codeFileContent = File.ReadAllText(filePath);
             storageSize = File.ReadAllBytes(filePath).Length;
             lastModifiedTime = File.GetLastWriteTime(filePath).ToLongDateString() + " " + File.GetLastWriteTime(filePath).ToLongTimeString();
@@ -36,9 +38,10 @@ namespace CodeSummarizer
             ExtractUsingStatements(codeFileContent);
             ExtractEnumStatements(codeFileContent);
             ExtractInterfaces(codeFileContent);
+            
+            Logger.OutputToLog("INITIAL FORMATTED RESULT : " + Environment.NewLine + codeFileContent);
             ExtractClasses(codeFileContent);
-
-            //LogOutput();
+                        
         }
 
         private void LogOutput()
@@ -155,6 +158,7 @@ namespace CodeSummarizer
                 }
                 else
                     namespaceText = "None";
+                Logger.OutputToLog("Namespace : " + namespaceText + Environment.NewLine);
                 ClassData cd = new ClassData()
                 {
                     Namespace = namespaceText
@@ -165,8 +169,18 @@ namespace CodeSummarizer
                 ExtractClassAndDerievedClass(newStartString, cd);
                 int classStartIndex = 0;
                 int classEndIndex = 0;
+                bool isValidClass = true;
                 for (int i = 0; i < newStartString.Length; i++)
-                {
+                {                    
+                    if(!hasEnteredClassBlock)
+                    {
+                        if(!newStartString.Contains("{") && !newStartString.Contains("}"))
+                        {
+                            isValidClass = false;
+                            break;
+                        }
+                    }
+
                     if (newStartString[i] == '{')
                     {
                         bracketPosition.Push(i);
@@ -178,6 +192,11 @@ namespace CodeSummarizer
                     }
                     else if (newStartString[i] == '}')
                     {
+                        if (bracketPosition.Count <= 0)
+                        {
+                            isValidClass = false;
+                            break;
+                        }
                         bracketPosition.Pop();
                     }
 
@@ -187,10 +206,21 @@ namespace CodeSummarizer
                         break;
                     }
                 }
-
-                newStartString = newStartString.Substring(classStartIndex, classEndIndex - classStartIndex);
-                cd.Analyze(newStartString);
-                classes.Add(cd);
+                if (isValidClass)
+                {
+                    try
+                    {
+                        newStartString = newStartString.Substring(classStartIndex, classEndIndex - classStartIndex);
+                        Logger.OutputToLog("Analysis of class Data : " + Environment.NewLine + newStartString);
+                        cd.Analyze(newStartString);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error : class start index = " + classStartIndex + ", end index = " + classEndIndex + " , class : " + cd.ClassName);
+                        Console.WriteLine(e.StackTrace);
+                    }                    
+                    classes.Add(cd);
+                }
             }
         }
 

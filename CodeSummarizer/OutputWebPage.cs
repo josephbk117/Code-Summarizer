@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeSummarizer
 {
@@ -46,7 +42,7 @@ namespace CodeSummarizer
         {
             string classTemplateLoc = "Res/Templates/Class Templates/" + templateLocation;
             string enumTemplateLoc = "Res/Templates/Enum Templates/" + templateLocation;
-            string interfaceTemplateLoc = "Res/Templates/Interface Templates/" + templateLocation;
+            string interfaceTemplateLoc = "Res/Templates/Interface Templates/" + templateLocation;            
 
             this.templateLocation = templateLocation;
             this.fileLocation = outputFolderLocation;
@@ -81,7 +77,7 @@ namespace CodeSummarizer
                 string iValues = "<ul>";
                 foreach (FunctionData fVal in iData.Functions)
                 {
-                    iValues += "<li>" + fVal.ToString() + "</li>";
+                    iValues += $"<li><font color = \"{hexDat}\">{fVal.ReturnType}</font>  <font color = \"{hexId}\">{fVal.FunctionName}</font> {fVal.GetHtmlParameterString(hexId, hexDat)}</li>";
                 }
                 iValues += "</ul>";
                 content = content.Replace(INTERFACE_FUNCS, iValues);
@@ -116,15 +112,20 @@ namespace CodeSummarizer
                 string content = templateContent.Replace(LAST_MODIFIED, codeData.lastModifiedTime);
                 //get all class references add to list and pass on to the functions
                 List<string> usedClasses = new List<string>();
+                List<string> usedEnums = new List<string>();
 
                 foreach (string cName in ProjectInfo.classUseDictionary[cData])
                 {
                     usedClasses.Add(cName);
                 }
+                foreach (string eName in ProjectInfo.enumUseDictionary[cData])
+                {
+                    usedEnums.Add(eName);
+                }
 
                 content = SetDependencies(codeData, content);
                 content = SetTodos(codeData, content);
-                content = SetClassContent(cData, content, usedClasses);
+                content = SetClassContent(cData, content, usedClasses, usedEnums);
 
                 File.WriteAllText(fileLocation + "\\" + cData.ClassName + "_Class_Doc.html", content);
             }
@@ -154,24 +155,37 @@ namespace CodeSummarizer
             return content;
         }
 
-        public string SetClassContent(ClassData classData, string content, List<string> usedClasses)
+        public string SetClassContent(ClassData classData, string content, List<string> usedClasses, List<string> usedEnums)
         {
             content = content.Replace(CLASSNAME, classData.ClassName);
-            content = content.Replace(DCLASSNAME, classData.DerievedClass);
+
+            if (usedClasses.Contains(classData.DerievedClass))
+            {
+                content = content.Replace(DCLASSNAME, $"<a href = \"{classData.DerievedClass}_Class_Doc.html\"><font color = \"{hexDat}\">{classData.DerievedClass}</font></a>");
+            }
+            else
+                content = content.Replace(DCLASSNAME, classData.DerievedClass);
+
             content = content.Replace(NAMESPACE, classData.Namespace);
-            content = SetVariables(classData, content, usedClasses);
-            content = SetFunctions(classData, content, usedClasses);
+            content = SetVariables(classData, content, usedClasses, usedEnums);
+            content = SetFunctions(classData, content, usedClasses, usedEnums);
             return content;
         }
 
-        private string SetFunctions(ClassData classData, string content, List<string> usedClasses)
+        private string SetFunctions(ClassData classData, string content, List<string> usedClasses, List<string> usedEnums)
         {
             string funcs = "<ul>";
+            
             foreach (FunctionData fData in classData.Functions)
             {
+                //Clases
                 if (usedClasses.Contains(fData.ReturnType))
                 {
                     funcs += $"<li><a href = \"{fData.ReturnType}_Class_Doc.html\"><font color = \"{hexDat}\">{fData.ReturnType}</font></a> <font color = \"{hexId}\">{fData.FunctionName}</font> {fData.GetHtmlParameterString(hexId, hexDat)}</li>";
+                }
+                else if (usedEnums.Contains(fData.ReturnType))
+                {
+                    funcs += $"<li><a href = \"{fData.ReturnType}_Enum_Doc.html\"><font color = \"{hexDat}\">{fData.ReturnType}</font></a> <font color = \"{hexId}\">{fData.FunctionName}</font> {fData.GetHtmlParameterString(hexId, hexDat)}</li>";
                 }
                 else
                     funcs += $"<li><font color = \"{hexDat}\">{fData.ReturnType}</font>  <font color = \"{hexId}\">{fData.FunctionName}</font> {fData.GetHtmlParameterString(hexId, hexDat)}</li>";
@@ -181,15 +195,20 @@ namespace CodeSummarizer
             return content;
         }
 
-        private string SetVariables(ClassData classData, string content, List<string> usedClasses)
+        private string SetVariables(ClassData classData, string content, List<string> usedClasses, List<string> usedEnums)
         {
 
             string vars = "<ul>";
+            
             foreach (VariableData vData in classData.Variables)
             {
                 if (usedClasses.Contains(vData.VariableType))
                 {
                     vars += $"<li><a href = \"{vData.VariableType}_Class_Doc.html\" ><font color = \"{hexDat}\">{vData.VariableType}</font></a> <font color = \"{hexId}\">{vData.VariableName}</font></li>";
+                }
+                else if (usedEnums.Contains(vData.VariableType))
+                {
+                    vars += $"<li><a href = \"{vData.VariableType}_Enum_Doc.html\" ><font color = \"{hexDat}\">{vData.VariableType}</font></a> <font color = \"{hexId}\">{vData.VariableName}</font></li>";
                 }
                 else
                     vars += $"<li><font color = \"{hexDat}\">{vData.VariableType}</font></a> <font color = \"{hexId}\">{vData.VariableName}</font></li>";

@@ -12,12 +12,18 @@ namespace CodeSummarizer
         public List<FunctionData> Functions { set; get; }
         public List<VariableData> Variables { set; get; }
 
-        public void Analyze(string dataText)
+        public ClassData()
         {
             Functions = new List<FunctionData>();
             Variables = new List<VariableData>();
+        }
+
+        public void Analyze(string dataText)
+        {
             dataText = RemoveFunctionBodies(dataText);
+            Logger.OutputToLog("After removing function bodies : " + Environment.NewLine + dataText);
             dataText = ExtractFunctions(dataText);
+            Logger.OutputToLog("After removing functions : " + Environment.NewLine + dataText);
             ExtractMemberVariables(dataText);
         }
         private void ExtractMemberVariables(string line)
@@ -40,6 +46,7 @@ namespace CodeSummarizer
             Regex variableRegex = new Regex(variablePattern);
             foreach (Match match in variableRegex.Matches(newString))
             {
+                Logger.OutputToLog("Variable to analyze :- " + match.Value);
                 VariableData vars = new VariableData(match.Value);
                 Variables.Add(vars);
             }
@@ -56,7 +63,7 @@ namespace CodeSummarizer
                 string temp = func.Substring(0, match.Value.IndexOf('(') - 1);
 
                 FunctionData funcData = new FunctionData(match.Value);
-                
+
                 Functions.Add(funcData);
                 line = line.Replace(match.Value, "");
             }
@@ -87,17 +94,26 @@ namespace CodeSummarizer
         {
             Stack<int> bracketPosition = new Stack<int>();
             List<Pair> codeSections = new List<Pair>();
+            bool hasSeenFunction = false;
             for (int i = 0; i < line.Length; i++)
             {
-                if (line[i] == '{')
-                    bracketPosition.Push(i);
-                else if (line[i] == '}')
+                if (line[i] == ')')
                 {
-                    if (bracketPosition.Count == 1)
+                    hasSeenFunction = true;
+                }
+                if (hasSeenFunction)
+                {
+                    if (line[i] == '{')
+                        bracketPosition.Push(i);
+                    else if (line[i] == '}')
                     {
-                        codeSections.Add(new Pair(bracketPosition.Peek(), i));
+                        if (bracketPosition.Count == 1)
+                        {
+                            codeSections.Add(new Pair(bracketPosition.Peek(), i));
+                            hasSeenFunction = false;
+                        }
+                        bracketPosition.Pop();
                     }
-                    bracketPosition.Pop();
                 }
             }
             string temp = line;

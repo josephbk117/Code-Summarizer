@@ -1,0 +1,4 @@
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\bin\Release\CodeSummarizer.dll
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\bin\Release\CodeSummarizer.pdb
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\obj\Release\CodeSummarizer.dll
+C:\Users\josep_000\Documents\Visual Studio 2017\Projects\Code Summarizer\CodeSummarizer\obj\Release\CodeSummarizer.pdb
